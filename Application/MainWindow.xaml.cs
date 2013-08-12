@@ -25,5 +25,10 @@ namespace ViBGYOR
             InitializeComponent();
             MouseLeftButtonDown += delegate { DragMove(); };
         }
+
+        private void OnClose(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

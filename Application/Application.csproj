@@ -100,6 +100,12 @@
   <ItemGroup>
     <Resource Include="Resources\AppIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RoundButton\RoundButton.csproj">
+      <Project>{fe7ade96-da2e-4eb6-9d8b-5c9eb480d188}</Project>
+      <Name>RoundButton</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
