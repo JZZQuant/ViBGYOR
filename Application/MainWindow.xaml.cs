@@ -26,7 +26,27 @@ namespace ViBGYOR
             MouseLeftButtonDown += delegate { DragMove(); };
         }
 
-        private void OnClose(object sender, MouseButtonEventArgs e)
+        private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).ContextMenu.IsEnabled = true;
+            (sender as Button).ContextMenu.PlacementTarget = (sender as Button);
+            (sender as Button).ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            (sender as Button).ContextMenu.IsOpen = true;
+        }
+
+        private void Maximize(object sender, MouseButtonEventArgs e)
+        {
+            if (this.WindowState == System.Windows.WindowState.Normal)
+            {
+                this.WindowState = System.Windows.WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = System.Windows.WindowState.Normal;
+            }
+        }
+
+        private void OnClose(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
