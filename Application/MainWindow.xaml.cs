@@ -20,6 +20,8 @@ namespace ViBGYOR
     /// </summary>
     public partial class FramelessWindow : Window
     {
+        public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
+
         public FramelessWindow()
         {
             InitializeComponent();
@@ -36,19 +38,24 @@ namespace ViBGYOR
 
         private void Maximize(object sender, MouseButtonEventArgs e)
         {
-            if (this.WindowState == System.Windows.WindowState.Normal)
-            {
-                this.WindowState = System.Windows.WindowState.Maximized;
-            }
-            else
-            {
-                this.WindowState = System.Windows.WindowState.Normal;
-            }
+            this.WindowState = (this.WindowState == System.Windows.WindowState.Normal) ?
+                System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
         }
 
         private void OnClose(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void AddNewCultureElement(object sender, ExecutedRoutedEventArgs e)
+        {
+            var vc = new ViBGYOR.Controls.CultureElement();
+            vc.Curvature = 7;
+            vc.Background = Brushes.Red;
+            vc.Height = 20;
+            vc.HorizontalAlignment = HorizontalAlignment.Stretch;
+            DockPanel.SetDock(vc, Dock.Top);
+            this.LeftDock.Children.Add(vc);
         }
     }
 }

@@ -13,4 +13,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type local:CultureElement}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CultureElement}">
+                    <Grid>
+                        <Border 
+                            BorderBrush="{TemplateBinding Background}"                           
+                            CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}"
+                            Background="{TemplateBinding Background}">
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
