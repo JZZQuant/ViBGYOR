@@ -9,9 +9,11 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViBGYOR.Controls;
 
 namespace ViBGYOR
 {
@@ -21,6 +23,7 @@ namespace ViBGYOR
     public partial class FramelessWindow : Window
     {
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
+        public static RoutedCommand ChangeColur = new RoutedCommand();
 
         public FramelessWindow()
         {
@@ -44,12 +47,25 @@ namespace ViBGYOR
         private void AddNewCultureElement(object sender, ExecutedRoutedEventArgs e)
         {
             var vc = new ViBGYOR.Controls.CultureElement();
-            vc.Curvature = 7;
-            vc.Background = Brushes.Red;
-            vc.Height = 20;
+            vc.Curvature = 4;
+            var color = this.Resources["G"] as Brush;
+            vc.Background = color;
+            vc.Height = 15;
             vc.HorizontalAlignment = HorizontalAlignment.Stretch;
             DockPanel.SetDock(vc, Dock.Top);
-            this.LeftDock.Children.Add(vc);
+            vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand,new MouseGesture(MouseAction.LeftDoubleClick)));
+            HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);
+            var position = this.LeftDock.Children.IndexOf(e.OriginalSource as UIElement);
+            if(position>0)this.LeftDock.Children.Insert( position,vc);            
+            else this.LeftDock.Children.Add(vc);
+        }
+
+        private void ChangeColorHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            var resKey = e.Parameter.ToString();
+            var color = this.Resources[resKey] as Brush;
+            var cultureEl = e.OriginalSource as CultureElement;
+            cultureEl.Background = color;
         }
     }
 }

@@ -11,6 +11,42 @@
             <GradientStop Color="#FF707070"/>
             <GradientStop Color="#CC343232" Offset="1"/>
         </LinearGradientBrush>
+        <LinearGradientBrush x:Key="V" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF6E00FF" Offset="0"/>
+            <GradientStop Color="#FFEC05EC" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="I" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Indigo" Offset="0"/>
+            <GradientStop Color="#FF6200FF" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="B" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF00FFE2" Offset="0"/>
+            <GradientStop Color="#FF0091FF" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="G" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF00FF1E" Offset="0"/>
+            <GradientStop Color="#FF00FFB4" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Y" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFD600" Offset="0"/>
+            <GradientStop Color="#FFD7FF00" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="O" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFF8500" Offset="0"/>
+            <GradientStop Color="#FFFF4B00" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="R" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFDB0600" Offset="0"/>
+            <GradientStop Color="#FFFF1100" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="K" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF736A6A" Offset="0"/>
+            <GradientStop Color="#FF0D0C0C" Offset="1"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="W" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFCFC4C4" Offset="0"/>
+            <GradientStop Color="#FFF0EDED" Offset="1"/>
+        </LinearGradientBrush>
         <ControlTemplate x:Key="ScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
             <Grid x:Name="Grid" Background="{TemplateBinding Background}">
                 <Grid.ColumnDefinitions>
@@ -145,6 +181,7 @@
     </Window.Background>
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:FramelessWindow.AddNewCultureElementCommand}" Executed="AddNewCultureElement"/>
+        <CommandBinding Command="{x:Static local:FramelessWindow.ChangeColur}" Executed="ChangeColorHandler"/>
     </Window.CommandBindings>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -251,7 +288,7 @@
             </Button.ContextMenu>
         </Button>
         <ScrollViewer Name="MainScrollAreaVertical" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Column="0" 
-                      Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="1" Template="{StaticResource ScrollViewerControlTemplate}">
+                      Grid.ColumnSpan="3" Focusable="False" Grid.Row="1" Grid.RowSpan="1" Template="{StaticResource ScrollViewerControlTemplate}">
             <DockPanel Name="LeftDock" HorizontalAlignment="Left" Width="35" VerticalAlignment="Stretch" LastChildFill="False">
             </DockPanel >
             <ScrollViewer.InputBindings>

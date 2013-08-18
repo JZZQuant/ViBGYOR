@@ -19,7 +19,8 @@
                 <ControlTemplate TargetType="{x:Type local:CultureElement}">
                     <Grid>
                         <Border 
-                            BorderBrush="{TemplateBinding Background}"                           
+                            BorderBrush="Black"   
+                            BorderThickness="1"
                             CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}"
                             Background="{TemplateBinding Background}">
                         </Border>

@@ -44,7 +44,7 @@ namespace ViBGYOR.Controls
     ///     <MyNamespace:CustomControl1/>
     ///
     /// </summary>
-    public class CultureElement : Control
+    public class CultureElement : Button
     {
         static CultureElement()
         {
