@@ -36,12 +36,6 @@ namespace ViBGYOR
             (sender as Button).ContextMenu.IsOpen = true;
         }
 
-        private void Maximize(object sender, MouseButtonEventArgs e)
-        {
-            this.WindowState = (this.WindowState == System.Windows.WindowState.Normal) ?
-                System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
-        }
-
         private void OnClose(object sender, RoutedEventArgs e)
         {
             this.Close();

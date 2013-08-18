@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:ViBGYOR" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="ViBGYOR.FramelessWindow"
         xmlns:VC="clr-namespace:ViBGYOR.Controls;assembly=RoundButton" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Luna" 
         Height="165.544" Width="829.188" AllowDrop="True" BorderThickness="2" WindowStyle="None" 
-        AllowsTransparency="True" MouseDoubleClick="Maximize" BorderBrush="#FF525252" ResizeMode="CanResizeWithGrip" Icon="./Resources/AppIcon.png"
+        AllowsTransparency="True" BorderBrush="#FF525252" ResizeMode="CanResizeWithGrip" Icon="./Resources/AppIcon.png"
         Title="ViBGYOR">
     <Window.Resources>
         <LinearGradientBrush x:Key="BlackShade" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -29,7 +29,7 @@
         </ControlTemplate>
         <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
             <Setter Property="OverridesDefaultStyle" Value="true"/>
-            <Setter Property="Background" Value="{StaticResource ResourceKey=BlackShade}"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Focusable" Value="false"/>
             <Setter Property="IsTabStop" Value="false"/>
             <Setter Property="Template">
@@ -253,11 +253,11 @@
         <ScrollViewer Name="MainScrollAreaVertical" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Column="0" 
                       Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="1" Template="{StaticResource ScrollViewerControlTemplate}">
             <DockPanel Name="LeftDock" HorizontalAlignment="Left" Width="35" VerticalAlignment="Stretch" LastChildFill="False">
-                <DockPanel.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick" Command="{x:Static local:FramelessWindow.AddNewCultureElementCommand}" >
-                    </MouseBinding>                    
-                </DockPanel.InputBindings>
             </DockPanel >
+            <ScrollViewer.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{x:Static local:FramelessWindow.AddNewCultureElementCommand}" >
+                </MouseBinding>
+            </ScrollViewer.InputBindings>
         </ScrollViewer>
         <ScrollViewer Name="MainScrollAreaHorizontal" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" 
                        Grid.Row="1" Grid.RowSpan="2" Template="{StaticResource ScrollViewerControlTemplate}">
