@@ -104,9 +104,9 @@
     <Resource Include="Resources\AppIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RoundButton\RoundButton.csproj">
+    <ProjectReference Include="..\Controls\Controls.csproj">
       <Project>{fe7ade96-da2e-4eb6-9d8b-5c9eb480d188}</Project>
-      <Name>RoundButton</Name>
+      <Name>Controls %28Controls\Controls%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
