@@ -220,9 +220,9 @@
         </VC:RoundButton>
         <StackPanel Name="QuickMinbon" Grid.Column="1">
         </StackPanel>
-        <Button Name="TopMenu" Content="&#x2195;" Foreground="GreenYellow" FontFamily="Calibri" FontSize="8" FontWeight="ExtraBold" Click="ExpandMainContextMenu" 
+        <Button Name="TopMenu" Content="&#x2195;" Foreground="GreenYellow" FontFamily="Calibri" FontSize="8" FontWeight="ExtraBold"                
                  VerticalAlignment="Top" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
-                 ContextMenuService.IsEnabled="False" >
+                 ContextMenuService.IsEnabled="False" Click="ExpandMainContextMenu" >
             <Button.Background>
                 <StaticResource ResourceKey="BlackShade" />
             </Button.Background>

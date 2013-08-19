@@ -18,13 +18,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CultureElement}">
                     <Grid>
-                        <Border 
-                            BorderBrush="Black"   
-                            BorderThickness="1"
-                            CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}"
-                            Background="{TemplateBinding Background}">
+                        <Border Height="15" BorderBrush="Black" BorderThickness="1" Background="{TemplateBinding Background}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}">
+                            <ContentControl FontFamily="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Font}" 
+                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DisplayTxt}"
+                                            HorizontalAlignment="Center" Foreground="Gray"/>
                             <Border.ContextMenu>
-                                <ContextMenu Background="{DynamicResource ResourceKey=BlackShade}" BorderBrush="{DynamicResource ResourceKey=BlackShade}">
+                                 <ContextMenu Background="{DynamicResource ResourceKey=BlackShade}" BorderBrush="{DynamicResource ResourceKey=BlackShade}">
                                     <MenuItem>
                                         <MenuItem.Header>
                                             <DockPanel>
@@ -32,7 +32,7 @@
                                                 <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                                                          Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Pitch}" 
                                                          Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
-                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="{TemplateBinding Background}"></TextBox>
                                             </DockPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -44,7 +44,7 @@
                                                 <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                                                          Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Font}" 
                                                          Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
-                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="{TemplateBinding Background}"></TextBox>
                                             </DockPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
@@ -56,14 +56,14 @@
                                                 <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                                                          Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DisplayTxt}" 
                                                          Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
-                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="{TemplateBinding Background}"></TextBox>
                                             </DockPanel>
                                         </MenuItem.Header>
                                     </MenuItem>
                                 </ContextMenu>
                             </Border.ContextMenu>
                         </Border>
-                    </Grid>       
+                    </Grid>     
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

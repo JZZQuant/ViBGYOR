@@ -47,14 +47,8 @@ namespace ViBGYOR
         private void AddNewCultureElement(object sender, ExecutedRoutedEventArgs e)
         {
             var vc = new ViBGYOR.Controls.CultureElement();
-            vc.Curvature = 4;
-            vc.Pitch = "C3";
-            vc.Font = "Arial";
-            vc.DisplayTxt = "MidC";
             var color = this.Resources["G"] as Brush;
             vc.Background = color;
-            vc.Height = 15;
-            vc.HorizontalAlignment = HorizontalAlignment.Stretch;
             DockPanel.SetDock(vc, Dock.Top);
             vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand,new MouseGesture(MouseAction.LeftDoubleClick)));
             HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);
