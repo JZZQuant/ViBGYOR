@@ -48,6 +48,9 @@ namespace ViBGYOR
         {
             var vc = new ViBGYOR.Controls.CultureElement();
             vc.Curvature = 4;
+            vc.Pitch = "C3";
+            vc.Font = "Arial";
+            vc.DisplayTxt = "MidC";
             var color = this.Resources["G"] as Brush;
             vc.Background = color;
             vc.Height = 15;

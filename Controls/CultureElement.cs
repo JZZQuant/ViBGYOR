@@ -49,15 +49,43 @@ namespace ViBGYOR.Controls
         static CultureElement()
         {
             CurvatureProperty = DependencyProperty.Register("Curvature", typeof(int), typeof(CultureElement), new UIPropertyMetadata(9));
+            PitchProperty = DependencyProperty.Register("Pitch", typeof(string), typeof(CultureElement), new UIPropertyMetadata("C3"));
+            FontProperty = DependencyProperty.Register("Font", typeof(string), typeof(CultureElement), new UIPropertyMetadata("Default"));
+            DisplayTxtProperty = DependencyProperty.Register("DisplayTxt", typeof(string), typeof(CultureElement), new UIPropertyMetadata("Default"));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CultureElement), new FrameworkPropertyMetadata(typeof(CultureElement)));
         }
 
-       public static DependencyProperty CurvatureProperty;
+        public static DependencyProperty DisplayTxtProperty;
 
-       public int Curvature
-       {
-           get { return (int)GetValue(CurvatureProperty); }
-           set { SetValue(CurvatureProperty, value); }
-       }
+        public string DisplayTxt
+        {
+            get { return (string)GetValue(DisplayTxtProperty); }
+            set { SetValue(DisplayTxtProperty, value); }
+        }
+
+
+        public static DependencyProperty CurvatureProperty;
+
+        public int Curvature
+        {
+            get { return (int)GetValue(CurvatureProperty); }
+            set { SetValue(CurvatureProperty, value); }
+        }
+
+        public static DependencyProperty PitchProperty;
+
+        public string Pitch
+        {
+            get { return (string)GetValue(PitchProperty); }
+            set { SetValue(PitchProperty, value); }
+        }
+
+        public static DependencyProperty FontProperty;
+
+        public string Font
+        {
+            get { return (string)GetValue(FontProperty); }
+            set { SetValue(FontProperty, value); }
+        }
     }
 }

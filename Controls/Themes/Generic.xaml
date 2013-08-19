@@ -23,10 +23,53 @@
                             BorderThickness="1"
                             CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}"
                             Background="{TemplateBinding Background}">
+                            <Border.ContextMenu>
+                                <ContextMenu Background="{DynamicResource ResourceKey=BlackShade}" BorderBrush="{DynamicResource ResourceKey=BlackShade}">
+                                    <MenuItem>
+                                        <MenuItem.Header>
+                                            <DockPanel>
+                                                <Label Content="Pitch"/>
+                                                <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Pitch}" 
+                                                         Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                            </DockPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <MenuItem >
+                                        <MenuItem.Header>
+                                            <DockPanel>
+                                                <Label Content="FontFamily">
+                                                </Label>
+                                                <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Font}" 
+                                                         Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                            </DockPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                    <MenuItem >
+                                        <MenuItem.Header>
+                                            <DockPanel>
+                                                <Label Content="ShowAs">
+                                                </Label>
+                                                <TextBox FontSize="12" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DisplayTxt}" 
+                                                         Width="50" Height="20" BorderBrush="{DynamicResource ResourceKey=BlackShade}"
+                                                         Background="{DynamicResource ResourceKey=BlackShade}" Foreground="GreenYellow"></TextBox>
+                                            </DockPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Border.ContextMenu>
                         </Border>
-                    </Grid>
+                    </Grid>       
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+    <LinearGradientBrush x:Key="BlackShade" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        <GradientStop Color="#FF707070"/>
+        <GradientStop Color="#CC343232" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
