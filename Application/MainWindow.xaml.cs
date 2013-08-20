@@ -49,6 +49,8 @@ namespace ViBGYOR
             var vc = new ViBGYOR.Controls.CultureElement();
             var color = this.Resources["G"] as Brush;
             vc.Background = color;
+            vc.Height = 15;
+            vc.Curvature = 4;
             DockPanel.SetDock(vc, Dock.Top);
             vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand,new MouseGesture(MouseAction.LeftDoubleClick)));
             HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);

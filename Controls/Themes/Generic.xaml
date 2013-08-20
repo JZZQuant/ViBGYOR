@@ -18,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CultureElement}">
                     <Grid>
-                        <Border Height="15" BorderBrush="Black" BorderThickness="1" Background="{TemplateBinding Background}"
+                        <Border BorderBrush="Black" BorderThickness="1" Background="{TemplateBinding Background}"
                             CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}">
                             <ContentControl FontFamily="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Font}" 
                                             Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DisplayTxt}"
