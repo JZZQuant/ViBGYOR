@@ -51,7 +51,7 @@ namespace ViBGYOR.Controls
             CurvatureProperty = DependencyProperty.Register("Curvature", typeof(int), typeof(CultureElement), new UIPropertyMetadata(4));
             PitchProperty = DependencyProperty.Register("Pitch", typeof(string), typeof(CultureElement), new UIPropertyMetadata("C3"));
             FontProperty = DependencyProperty.Register("Font", typeof(string), typeof(CultureElement), new UIPropertyMetadata("Arial"));
-            DisplayTxtProperty = DependencyProperty.Register("DisplayTxt", typeof(string), typeof(CultureElement), new UIPropertyMetadata("MidC"));
+            DisplayTxtProperty = DependencyProperty.Register("DisplayTxt", typeof(string), typeof(CultureElement), new UIPropertyMetadata("C"));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CultureElement), new FrameworkPropertyMetadata(typeof(CultureElement)));
         }
 

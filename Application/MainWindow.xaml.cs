@@ -75,6 +75,7 @@ namespace ViBGYOR
         {
             var midiStrip = new MidiStrip();
             midiStrip.Part_Host.Height = vc.Height;
+            midiStrip.HorizontalAlignment = HorizontalAlignment.Stretch;
             midiStrip.Name = vc.Name + "_Strip";
             midiStrip.MouseDoubleClick += HelperMethods.AddMidiNotesToStrip;
             midiStrip.BorderBrush = Brushes.Black;
