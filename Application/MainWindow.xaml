@@ -297,11 +297,9 @@
                 </MouseBinding>
             </ScrollViewer.InputBindings>
         </ScrollViewer>
-        <ScrollViewer Name="MainScrollAreaHorizontal" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" 
-                       Grid.Row="1" Grid.RowSpan="2" Template="{StaticResource ScrollViewerControlTemplate}">
-            <DockPanel Name="CenterDock">
-
-            </DockPanel>
+        <ScrollViewer Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" 
+                       Grid.Row="1" Grid.RowSpan="2" Template="{StaticResource ScrollViewerControlTemplate}" >
+            <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False"/>
         </ScrollViewer>
     </Grid>
 </Window>

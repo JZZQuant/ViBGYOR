@@ -22,6 +22,8 @@ namespace ViBGYOR
     /// </summary>
     public partial class FramelessWindow : Window
     {
+        public static int i = 0;
+
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
         public static RoutedCommand ChangeColur = new RoutedCommand();
 
@@ -51,11 +53,13 @@ namespace ViBGYOR
             vc.Background = color;
             vc.Height = 15;
             vc.Curvature = 4;
+            vc.Name = "Element_" + i++.ToString();
             DockPanel.SetDock(vc, Dock.Top);
-            vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand,new MouseGesture(MouseAction.LeftDoubleClick)));
+            vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand, new MouseGesture(MouseAction.LeftDoubleClick)));
             HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);
+            CreateCorrespondingMidiStrip(ref vc);
             var position = this.LeftDock.Children.IndexOf(e.OriginalSource as UIElement);
-            if(position>0)this.LeftDock.Children.Insert( position,vc);            
+            if (position > 0) this.LeftDock.Children.Insert(position, vc);
             else this.LeftDock.Children.Add(vc);
         }
 
@@ -65,6 +69,17 @@ namespace ViBGYOR
             var color = this.Resources[resKey] as Brush;
             var cultureEl = e.OriginalSource as CultureElement;
             cultureEl.Background = color;
+        }
+
+        private void CreateCorrespondingMidiStrip(ref CultureElement vc)
+        {
+            var midiStrip = new MidiStrip();
+            midiStrip.Part_Host.Height = vc.Height;
+            midiStrip.Name = vc.Name + "_Strip";
+            midiStrip.MouseDoubleClick += HelperMethods.AddMidiNotesToStrip;
+            midiStrip.BorderBrush = Brushes.Black;
+            DockPanel.SetDock(midiStrip,Dock.Top);
+            this.CenterDock.Children.Add(midiStrip);
         }
     }
 }
