@@ -65,6 +65,7 @@ namespace ViBGYOR
             Canvas.SetLeft(vc, e.GetPosition(canvasstrip).X);
             HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
             vc.Height = 15;
+            vc.Width = 45;
             vc.Curvature = 4;
             vc.Opacity = 10;
             canvasstrip.Children.Add(vc);
