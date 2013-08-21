@@ -74,7 +74,7 @@ namespace ViBGYOR.Controls
                 _isDragging = false;
             }
         }
-        
+
         // Hanler for providing drag operation with selected element
         void Window1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -82,21 +82,22 @@ namespace ViBGYOR.Controls
             {
                 if ((_isDragging == false) &&
                     ((Math.Abs(e.GetPosition(Part_Host).X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
-                    (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+                    (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance))
+                    && (Canvas.GetLeft(selectedElement) >= 0))
                     _isDragging = true;
 
                 if (_isDragging)
                 {
                     Point position = Mouse.GetPosition(Part_Host);
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
-                    Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
+                    Canvas.SetLeft(selectedElement, Math.Max(position.X - (_startPoint.X - _originalLeft), 0));
                 }
             }
-        }        
-                        
+        }
+
         // Handler for clearing element selection, adorner removal
         void Window1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {            
+        {
             if (selected)
             {
                 selected = false;
@@ -104,8 +105,8 @@ namespace ViBGYOR.Controls
                 {
                     aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
                     selectedElement = null;
-                }                
-            }            
+                }
+            }
         }
 
         // Handler for element selection on the canvas providing resizing adorner
@@ -118,7 +119,7 @@ namespace ViBGYOR.Controls
                 if (selectedElement != null)
                 {
                     // Remove the adorner from the selected element
-                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);                    
+                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
                     selectedElement = null;
                 }
             }
@@ -131,7 +132,7 @@ namespace ViBGYOR.Controls
                 _startPoint = e.GetPosition(Part_Host);
 
                 selectedElement = e.Source as UIElement;
-
+                selectedElement.Focus();
                 _originalLeft = Canvas.GetLeft(selectedElement);
                 _originalTop = Canvas.GetTop(selectedElement);
 

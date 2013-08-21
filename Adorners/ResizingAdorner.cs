@@ -64,8 +64,11 @@ namespace ViBGYOR.Adorners
             double width_old = adornedElement.Width;
             double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
             double left_old = Canvas.GetLeft(adornedElement);
-            adornedElement.Width = width_new;
-            Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
+            if ((left_old - (width_new - width_old)) >= 0)
+            {
+                adornedElement.Width = width_new;
+                Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
+            }
         }
 
         // Arrange the Adorners.
