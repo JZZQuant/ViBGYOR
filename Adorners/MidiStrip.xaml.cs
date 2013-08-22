@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Media;
 using ViBGYOR.Controls;
 
 
@@ -12,7 +13,7 @@ namespace ViBGYOR.Adorners
     [ContentProperty("Children")]
     public partial class MidiStrip : UserControl
     {
-        public static int defaultNoteMeasure = 45;
+        public static double defaultNoteMeasure = 45;
 
         AdornerLayer aLayer;
 
@@ -148,23 +149,21 @@ namespace ViBGYOR.Adorners
 
         private void Zoom(object sender, MouseWheelEventArgs e)
         {
-           var childelements =  Part_Host.Children;
-           foreach (var child in childelements)
-           {
-               var UIChile = child as FrameworkElement;
-               if (e.Delta > 0)               {
-                  
-                   UIChile.Width *= ScaleRate;
-                   Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * ScaleRate);
-                   //St.ScaleX *= ScaleRate;
-               }
-               else
-               {
-                   UIChile.Width /= ScaleRate;
-                   Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) / ScaleRate);
-                   //St.ScaleX /= ScaleRate;
-               }
-           }
+            //get + or -1  and rasie invert the scale rate
+            int sign = (Math.Abs(e.Delta) / e.Delta);
+            double localScale = Math.Pow(ScaleRate, sign);
+            defaultNoteMeasure *= localScale;
+
+            foreach (MidiStrip childs in (((Part_Host.Parent as MidiStrip).Parent as DockPanel)).Children)
+            {
+                foreach (var child in childs.Children)
+                {
+                    var UIChile = child as FrameworkElement;
+                    UIChile.Width *= localScale;
+                    Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
+                    //St.ScaleX *= ScaleRate;
+                }
+            }
         }
     }
 }
