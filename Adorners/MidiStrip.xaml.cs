@@ -13,8 +13,6 @@ namespace ViBGYOR.Adorners
     [ContentProperty("Children")]
     public partial class MidiStrip : UserControl
     {
-        public static double defaultNoteMeasure = 45;
-
         AdornerLayer aLayer;
 
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
@@ -33,7 +31,6 @@ namespace ViBGYOR.Adorners
         bool _isDragging;
         bool selected = false;
         public UIElement selectedElement = null;
-        const double ScaleRate = 1.1;
 
         Point _startPoint;
         private double _originalLeft;
@@ -144,25 +141,6 @@ namespace ViBGYOR.Adorners
                 aLayer.Add(new ResizingAdorner(selectedElement));
                 selected = true;
                 e.Handled = true;
-            }
-        }
-
-        private void Zoom(object sender, MouseWheelEventArgs e)
-        {
-            //get + or -1  and rasie invert the scale rate
-            int sign = (Math.Abs(e.Delta) / e.Delta);
-            double localScale = Math.Pow(ScaleRate, sign);
-            defaultNoteMeasure *= localScale;
-
-            foreach (MidiStrip childs in (((Part_Host.Parent as MidiStrip).Parent as DockPanel)).Children)
-            {
-                foreach (var child in childs.Children)
-                {
-                    var UIChile = child as FrameworkElement;
-                    UIChile.Width *= localScale;
-                    Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
-                    //St.ScaleX *= ScaleRate;
-                }
             }
         }
     }

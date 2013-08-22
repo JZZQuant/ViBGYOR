@@ -84,5 +84,10 @@ namespace ViBGYOR
             DockPanel.SetDock(midiStrip,Dock.Top);
             this.CenterDock.Children.Add(midiStrip);
         }
+
+        private void Zoom(object sender, MouseWheelEventArgs e)
+        {
+            HelperMethods.Zoom(sender, e);
+        }
     }
 }

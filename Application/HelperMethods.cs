@@ -14,6 +14,10 @@ namespace ViBGYOR
 {
     public static class HelperMethods
     {
+        public static double defaultNoteMeasure = 45;
+
+        const double ScaleRate = 1.1;
+
         public static void SetInputBindings(RoutedCommand r, Key k, ref CultureElement c)
         {
             KeyBinding t = new KeyBinding
@@ -68,7 +72,7 @@ namespace ViBGYOR
             vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             vc.Height = 15;
             vc.BorderBrush = Brushes.Transparent;
-            vc.Width = MidiStrip.defaultNoteMeasure;
+            vc.Width = defaultNoteMeasure;
             vc.Curvature = 0;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
@@ -78,6 +82,25 @@ namespace ViBGYOR
         {
             (((e.Source as CultureElement).Parent as Canvas).Parent as MidiStrip).selectedElement = null;
             ((e.Source as CultureElement).Parent as Canvas).Children.Remove(e.Source as CultureElement);           
+        }
+
+        public static void Zoom(object sender, MouseWheelEventArgs e)
+        {
+            //get + or -1  and rasie invert the scale rate
+            int sign = (Math.Abs(e.Delta) / e.Delta);
+            double localScale = Math.Pow(ScaleRate, sign);
+            defaultNoteMeasure *= localScale;
+            var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
+            foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
+            {
+                foreach (var child in childs.Children)
+                {
+                    var UIChile = child as FrameworkElement;
+                    UIChile.Width *= localScale;
+                    Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
+                    //St.ScaleX *= ScaleRate;
+                }
+            }
         }
     }
 }
