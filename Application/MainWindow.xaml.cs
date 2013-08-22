@@ -13,6 +13,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
 
 namespace ViBGYOR
@@ -53,6 +54,7 @@ namespace ViBGYOR
             vc.Background = color;
             vc.Height = 15;
             vc.Curvature = 4;
+            vc.Opacity = 0.7;
             vc.Name = "Element_" + i++.ToString();
             DockPanel.SetDock(vc, Dock.Top);
             vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand, new MouseGesture(MouseAction.LeftDoubleClick)));
