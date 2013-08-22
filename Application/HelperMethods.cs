@@ -67,7 +67,7 @@ namespace ViBGYOR
             vc.Height = 15;
             vc.Width = 45;
             vc.Curvature = 4;
-            vc.Opacity = 10;
+            vc.Opacity = 0.4;
             canvasstrip.Children.Add(vc);
         }
     }

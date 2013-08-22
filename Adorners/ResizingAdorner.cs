@@ -100,7 +100,7 @@ namespace ViBGYOR.Adorners
             // Set some arbitrary visual characteristics.
             cornerThumb.Cursor = customizedCursor;
             cornerThumb.Height = cornerThumb.Width = 10;
-            cornerThumb.Opacity = 0.40;
+            cornerThumb.Opacity = 0;
             cornerThumb.Background = new SolidColorBrush(Colors.MediumBlue);
 
             visualChildren.Add(cornerThumb);
