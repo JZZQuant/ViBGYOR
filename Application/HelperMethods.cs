@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
 
 namespace ViBGYOR
@@ -58,7 +59,6 @@ namespace ViBGYOR
             CultureElement vc = new CultureElement();
             //retrieve all parents and belonging objects
             var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
-
             var position = thiswindow.CenterDock.Children.IndexOf(midistrip);
             var vcMain = thiswindow.LeftDock.Children[position] as CultureElement;
             //set attributes
@@ -67,9 +67,10 @@ namespace ViBGYOR
             HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
             vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             vc.Height = 15;
-            vc.Width = 45;
-            vc.Curvature = 4;
-            vc.Opacity = 0.4;
+            vc.BorderBrush = Brushes.Transparent;
+            vc.Width = MidiStrip.defaultNoteMeasure;
+            vc.Curvature = 0;
+            vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
         }
 

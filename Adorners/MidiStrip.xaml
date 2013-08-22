@@ -1,7 +1,10 @@
-﻿<UserControl x:Class="ViBGYOR.Controls.MidiStrip"
+﻿<UserControl x:Class="ViBGYOR.Adorners.MidiStrip"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Loaded="Window_Loaded" HorizontalAlignment="Stretch">
-    <Canvas Name="Part_Host" Background="Transparent" x:FieldModifier="public">
+    <Canvas MouseWheel="Zoom" Name="Part_Host" Background="Transparent" x:FieldModifier="public">
+        <Canvas.RenderTransform>
+            <ScaleTransform x:Name="St"></ScaleTransform>
+        </Canvas.RenderTransform>
     </Canvas>    
 </UserControl>

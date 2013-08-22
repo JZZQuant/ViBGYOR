@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ViBGOR.Adorners.Properties {
+namespace ViBGYOR.Adorners.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

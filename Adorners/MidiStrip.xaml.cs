@@ -4,13 +4,16 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
-using ViBGYOR.Adorners;
+using ViBGYOR.Controls;
 
-namespace ViBGYOR.Controls
+
+namespace ViBGYOR.Adorners
 {
     [ContentProperty("Children")]
     public partial class MidiStrip : UserControl
     {
+        public static int defaultNoteMeasure = 45;
+
         AdornerLayer aLayer;
 
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
@@ -29,6 +32,7 @@ namespace ViBGYOR.Controls
         bool _isDragging;
         bool selected = false;
         public UIElement selectedElement = null;
+        const double ScaleRate = 1.1;
 
         Point _startPoint;
         private double _originalLeft;
@@ -140,6 +144,27 @@ namespace ViBGYOR.Controls
                 selected = true;
                 e.Handled = true;
             }
+        }
+
+        private void Zoom(object sender, MouseWheelEventArgs e)
+        {
+           var childelements =  Part_Host.Children;
+           foreach (var child in childelements)
+           {
+               var UIChile = child as FrameworkElement;
+               if (e.Delta > 0)               {
+                  
+                   UIChile.Width *= ScaleRate;
+                   Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * ScaleRate);
+                   //St.ScaleX *= ScaleRate;
+               }
+               else
+               {
+                   UIChile.Width /= ScaleRate;
+                   Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) / ScaleRate);
+                   //St.ScaleX /= ScaleRate;
+               }
+           }
         }
     }
 }
