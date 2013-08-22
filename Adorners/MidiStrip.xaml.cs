@@ -28,7 +28,7 @@ namespace ViBGYOR.Controls
         bool _isDown;
         bool _isDragging;
         bool selected = false;
-        UIElement selectedElement = null;
+        public UIElement selectedElement = null;
 
         Point _startPoint;
         private double _originalLeft;
@@ -82,8 +82,7 @@ namespace ViBGYOR.Controls
             {
                 if ((_isDragging == false) &&
                     ((Math.Abs(e.GetPosition(Part_Host).X - _startPoint.X) > SystemParameters.MinimumHorizontalDragDistance) ||
-                    (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance))
-                    && (Canvas.GetLeft(selectedElement) >= 0))
+                    (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
                     _isDragging = true;
 
                 if (_isDragging)

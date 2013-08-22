@@ -58,17 +58,25 @@ namespace ViBGYOR
             CultureElement vc = new CultureElement();
             //retrieve all parents and belonging objects
             var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
+
             var position = thiswindow.CenterDock.Children.IndexOf(midistrip);
             var vcMain = thiswindow.LeftDock.Children[position] as CultureElement;
             //set attributes
             vc.Background = vcMain.Background;
             Canvas.SetLeft(vc, e.GetPosition(canvasstrip).X);
             HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
+            vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             vc.Height = 15;
             vc.Width = 45;
             vc.Curvature = 4;
             vc.Opacity = 0.4;
             canvasstrip.Children.Add(vc);
+        }
+
+        private static void DeleteNote(object sender, MouseButtonEventArgs e)
+        {
+            (((e.Source as CultureElement).Parent as Canvas).Parent as MidiStrip).selectedElement = null;
+            ((e.Source as CultureElement).Parent as Canvas).Children.Remove(e.Source as CultureElement);           
         }
     }
 }
