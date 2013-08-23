@@ -238,18 +238,26 @@
                     <ContextMenu.BorderBrush>
                         <StaticResource ResourceKey="BlackShade" />
                     </ContextMenu.BorderBrush>
-                    <MenuItem>
+                    <MenuItem >
                         <MenuItem.Header>
-                            <DockPanel HorizontalAlignment="Stretch">
-                                <Image Height="10" Source="./Resources/AppIcon.png"></Image>
-                                <Label>Rotate 90°</Label>
+                            <DockPanel>
+                                <Label Content="Signature"/>
+                                <TextBox Name="measurelength" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                                         Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                                                         Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>
+                                <TextBox Name="notelength" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                                         Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                                                         Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>
                             </DockPanel>
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem >
                         <MenuItem.Header>
                             <DockPanel>
-                                <Label>Rotate 180°</Label>
+                                <Label Content="Tempo"/> 
+                                <TextBox Name="Tempo" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                                         Text="120" Width="50" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                                                         Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>
                             </DockPanel>
                         </MenuItem.Header>
                     </MenuItem>
