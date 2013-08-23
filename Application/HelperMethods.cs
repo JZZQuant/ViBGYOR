@@ -14,7 +14,7 @@ namespace ViBGYOR
 {
     public static class HelperMethods
     {
-        public static double defaultNoteMeasure = 45;
+        public static double defaultNoteMeasure = 90;
 
         const double ScaleRate = 1.1;
 

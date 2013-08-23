@@ -24,7 +24,7 @@ namespace ViBGYOR
     public partial class FramelessWindow : Window
     {
         public static int i = 0;
-
+        public static MidiStrip TimeLine;
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
         public static RoutedCommand ChangeColur = new RoutedCommand();
 
@@ -32,11 +32,27 @@ namespace ViBGYOR
         {
             InitializeComponent();
             MouseLeftButtonDown += delegate { DragMove(); };
+            //create an empty midi strip in bottom to fill space for the UI
             MidiStrip m = new MidiStrip();
             m.Height = 16;
             m.VerticalAlignment = VerticalAlignment.Bottom;
             DockPanel.SetDock(m,Dock.Bottom);
             CenterDock.Children.Add(m);
+            m.HorizontalAlignment = HorizontalAlignment.Stretch;
+            TimeLineCreate();
+        }
+
+        private void TimeLineCreate()
+        {            
+            TimeLine = new MidiStrip();
+            DockPanel.SetDock(TimeLine, Dock.Top);
+            TimeLine.VerticalAlignment = VerticalAlignment.Top;
+            TimeLine.Height = 20;
+            TimeLine.HorizontalAlignment = HorizontalAlignment.Stretch;
+            var color = this.Resources["BlackShade"] as Brush;
+            TimeLine.Background = color;
+            TimeLine.Name = "TimeLine";
+            CenterDock.Children.Add(TimeLine);
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)

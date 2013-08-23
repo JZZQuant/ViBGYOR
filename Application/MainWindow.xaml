@@ -296,16 +296,18 @@
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <ScrollViewer Name="MainScrollAreaVertical" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Column="0" 
+        <ScrollViewer Name="MainScrollAreaVertical" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Column="0" 
                       Grid.ColumnSpan="3" Focusable="False" Grid.Row="1" Grid.RowSpan="1" ScrollChanged="VerticalScrollSync" Template="{StaticResource ScrollViewerControlTemplate}">
             <DockPanel Name="LeftDock" HorizontalAlignment="Left" Width="35" VerticalAlignment="Stretch" LastChildFill="False">
+                <Button Height="20" Background="{StaticResource ResourceKey=BlackShade}" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                        HorizontalAlignment="Stretch" DockPanel.Dock="Top"></Button>
             </DockPanel >
             <ScrollViewer.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick" Command="{x:Static local:FramelessWindow.AddNewCultureElementCommand}" >
                 </MouseBinding>
             </ScrollViewer.InputBindings>
         </ScrollViewer>
-        <ScrollViewer PreviewMouseWheel="Zoom" Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden"
+        <ScrollViewer PreviewMouseWheel="Zoom" Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden"
                       Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" ScrollViewer.IsDeferredScrollingEnabled="True" Template="{StaticResource ScrollViewerControlTemplate}" >
             <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False">
             </DockPanel>
