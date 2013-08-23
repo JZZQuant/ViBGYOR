@@ -64,7 +64,7 @@ namespace ViBGYOR
             //retrieve all parents and belonging objects
             var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
             var position = thiswindow.CenterDock.Children.IndexOf(midistrip);
-            var vcMain = thiswindow.LeftDock.Children[position] as CultureElement;
+            var vcMain = thiswindow.LeftDock.Children[position-1] as CultureElement;
             //set attributes
             vc.Background = vcMain.Background;
             Canvas.SetLeft(vc, e.GetPosition(canvasstrip).X);
@@ -101,6 +101,7 @@ namespace ViBGYOR
                     //St.ScaleX *= ScaleRate;
                 }
             }
+            e.Handled = true;
         }
     }
 }

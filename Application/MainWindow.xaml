@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ViBGYOR" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="ViBGYOR.FramelessWindow"
         xmlns:VC="clr-namespace:ViBGYOR.Controls;assembly=ViBGYOR.Controls" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Luna" 
-        xmlns:VA="clr-namespace:ViBGYOR.Controls;assembly=ViBGOR.Adorners"
+        xmlns:VA="clr-namespace:ViBGYOR.Adorners;assembly=ViBGYOR.Adorners"
         Height="165.544" Width="829.188" AllowDrop="True" BorderThickness="2" WindowStyle="None" 
         AllowsTransparency="True" BorderBrush="#FF525252" ResizeMode="CanResizeWithGrip" Icon="./Resources/AppIcon.png"
         Title="ViBGYOR">
@@ -289,7 +289,7 @@
             </Button.ContextMenu>
         </Button>
         <ScrollViewer Name="MainScrollAreaVertical" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Column="0" 
-                      Grid.ColumnSpan="3" Focusable="False" Grid.Row="1" Grid.RowSpan="1" Template="{StaticResource ScrollViewerControlTemplate}">
+                      Grid.ColumnSpan="3" Focusable="False" Grid.Row="1" Grid.RowSpan="1" ScrollChanged="VerticalScrollSync" Template="{StaticResource ScrollViewerControlTemplate}">
             <DockPanel Name="LeftDock" HorizontalAlignment="Left" Width="35" VerticalAlignment="Stretch" LastChildFill="False">
             </DockPanel >
             <ScrollViewer.InputBindings>
@@ -297,9 +297,10 @@
                 </MouseBinding>
             </ScrollViewer.InputBindings>
         </ScrollViewer>
-        <ScrollViewer PreviewMouseWheel="Zoom" Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Column="1" 
-                       Grid.Row="1" Grid.RowSpan="2" Template="{StaticResource ScrollViewerControlTemplate}" >
-            <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False"/>
+        <ScrollViewer PreviewMouseWheel="Zoom" Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden"
+                      Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" ScrollViewer.IsDeferredScrollingEnabled="True" Template="{StaticResource ScrollViewerControlTemplate}" >
+            <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False">
+            </DockPanel>
         </ScrollViewer>
     </Grid>
 </Window>

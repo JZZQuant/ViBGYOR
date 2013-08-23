@@ -32,6 +32,11 @@ namespace ViBGYOR
         {
             InitializeComponent();
             MouseLeftButtonDown += delegate { DragMove(); };
+            MidiStrip m = new MidiStrip();
+            m.Height = 16;
+            m.VerticalAlignment = VerticalAlignment.Bottom;
+            DockPanel.SetDock(m,Dock.Bottom);
+            CenterDock.Children.Add(m);
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -88,6 +93,11 @@ namespace ViBGYOR
         private void Zoom(object sender, MouseWheelEventArgs e)
         {
             HelperMethods.Zoom(sender, e);
+        }
+
+        private void VerticalScrollSync(object sender, ScrollChangedEventArgs e)
+        {
+            MainScrollAreaHorizontal.ScrollToVerticalOffset(MainScrollAreaVertical.VerticalOffset);
         }
     }
 }

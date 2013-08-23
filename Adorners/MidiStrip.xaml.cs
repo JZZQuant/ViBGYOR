@@ -94,7 +94,10 @@ namespace ViBGYOR.Adorners
                 {
                     Point position = Mouse.GetPosition(Part_Host);
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
-                    Canvas.SetLeft(selectedElement, Math.Max(position.X - (_startPoint.X - _originalLeft), 0));
+                    if (position.X - (_startPoint.X - _originalLeft) > 0)
+                    {
+                        Canvas.SetLeft(selectedElement, Math.Max(position.X - (_startPoint.X - _originalLeft), 0));
+                    }
                 }
             }
         }
