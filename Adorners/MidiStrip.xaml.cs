@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using ViBGYOR.Controls;
 
 
@@ -35,7 +36,6 @@ namespace ViBGYOR.Adorners
         Point _startPoint;
         private double _originalLeft;
         private double _originalTop;
-
         public MidiStrip()
         {
             InitializeComponent();
@@ -46,11 +46,11 @@ namespace ViBGYOR.Adorners
         {
             this.MouseLeftButtonDown += new MouseButtonEventHandler(Window1_MouseLeftButtonDown);
             this.MouseLeftButtonUp += new MouseButtonEventHandler(DragFinishedMouseHandler);
-            this.MouseMove += new MouseEventHandler(Window1_MouseMove);
-            this.MouseLeave += new MouseEventHandler(Window1_MouseLeave);
-
             Part_Host.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(myCanvas_PreviewMouseLeftButtonDown);
             Part_Host.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(DragFinishedMouseHandler);
+            (Window.GetWindow((e.Source as FrameworkElement)) as FrameworkElement).MouseLeftButtonUp += (DragFinishedMouseHandler);
+            (Window.GetWindow((e.Source as FrameworkElement)) as FrameworkElement).MouseMove += (Window1_MouseMove);
+            (Window.GetWindow((e.Source as FrameworkElement)) as FrameworkElement).MouseLeave += (Window1_MouseLeave);
         }
 
         // Handler for drag stopping on leaving the window
@@ -63,12 +63,15 @@ namespace ViBGYOR.Adorners
         // Handler for drag stopping on user choise
         void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
         {
-            StopDragging();
+            foreach (MidiStrip strip in (this.Parent as DockPanel).Children)
+            {
+                strip.StopDragging();
+            }
             e.Handled = true;
         }
 
         // Method for stopping dragging
-        private void StopDragging()
+        public void StopDragging()
         {
             if (_isDown)
             {
@@ -87,7 +90,7 @@ namespace ViBGYOR.Adorners
                     (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
                     _isDragging = true;
 
-                if (_isDragging)
+                if (_isDragging && selectedElement != null)
                 {
                     Point position = Mouse.GetPosition(Part_Host);
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
