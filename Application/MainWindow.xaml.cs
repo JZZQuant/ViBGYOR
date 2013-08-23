@@ -24,7 +24,6 @@ namespace ViBGYOR
     public partial class FramelessWindow : Window
     {
         public static int i = 0;
-        public static MidiStrip TimeLine;
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
         public static RoutedCommand ChangeColur = new RoutedCommand();
 
@@ -44,15 +43,15 @@ namespace ViBGYOR
 
         private void TimeLineCreate()
         {            
-            TimeLine = new MidiStrip();
-            DockPanel.SetDock(TimeLine, Dock.Top);
-            TimeLine.VerticalAlignment = VerticalAlignment.Top;
-            TimeLine.Height = 20;
-            TimeLine.HorizontalAlignment = HorizontalAlignment.Stretch;
-            var color = this.Resources["BlackShade"] as Brush;
-            TimeLine.Background = color;
-            TimeLine.Name = "TimeLine";
-            CenterDock.Children.Add(TimeLine);
+            //TimeLine = new MidiStrip();
+            //DockPanel.SetDock(TimeLine, Dock.Top);
+            //TimeLine.VerticalAlignment = VerticalAlignment.Top;
+            //TimeLine.Height = 20;
+            //TimeLine.HorizontalAlignment = HorizontalAlignment.Stretch;
+            //var color = this.Resources["BlackShade"] as Brush;
+            //TimeLine.Background = color;
+            //TimeLine.Name = "TimeLine";
+            //CenterDock.Children.Add(TimeLine);
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -114,6 +113,11 @@ namespace ViBGYOR
         private void VerticalScrollSync(object sender, ScrollChangedEventArgs e)
         {
             MainScrollAreaHorizontal.ScrollToVerticalOffset(MainScrollAreaVertical.VerticalOffset);
+        }
+
+        private void HorizontalScrollSync(object sender, ScrollChangedEventArgs e)
+        {
+            TimeLineScrollSync.ScrollToHorizontalOffset(MainScrollAreaHorizontal.HorizontalOffset);    
         }
     }
 }

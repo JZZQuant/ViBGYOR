@@ -48,6 +48,7 @@ namespace ViBGYOR.Adorners
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
             adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
+            ((adornedElement.Parent as Canvas).Parent as MidiStrip).CanvasWidth = adornedElement.Width + Canvas.GetLeft(adornedElement);
         }
 
         // Handler for resizing from the top-left.

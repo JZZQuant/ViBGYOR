@@ -64,24 +64,26 @@ namespace ViBGYOR
             //retrieve all parents and belonging objects
             var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
             var position = thiswindow.CenterDock.Children.IndexOf(midistrip);
-            var vcMain = thiswindow.LeftDock.Children[position-1] as CultureElement;
+            var vcMain = thiswindow.LeftDock.Children[position - 1] as CultureElement;
+            //set Events
+            HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
+            vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             //set attributes
             vc.Background = vcMain.Background;
             Canvas.SetLeft(vc, e.GetPosition(canvasstrip).X);
-            HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
-            vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             vc.Height = 15;
             vc.BorderBrush = Brushes.Transparent;
             vc.Width = defaultNoteMeasure;
             vc.Curvature = 0;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
+            midistrip.CanvasWidth = e.GetPosition(canvasstrip).X + vc.Width;
         }
 
         private static void DeleteNote(object sender, MouseButtonEventArgs e)
         {
             (((e.Source as CultureElement).Parent as Canvas).Parent as MidiStrip).selectedElement = null;
-            ((e.Source as CultureElement).Parent as Canvas).Children.Remove(e.Source as CultureElement);           
+            ((e.Source as CultureElement).Parent as Canvas).Children.Remove(e.Source as CultureElement);
         }
 
         public static void Zoom(object sender, MouseWheelEventArgs e)

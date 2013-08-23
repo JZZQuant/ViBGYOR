@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -36,6 +38,7 @@ namespace ViBGYOR.Adorners
         Point _startPoint;
         private double _originalLeft;
         private double _originalTop;
+
         public MidiStrip()
         {
             InitializeComponent();
@@ -96,7 +99,8 @@ namespace ViBGYOR.Adorners
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
                     if (position.X - (_startPoint.X - _originalLeft) > 0)
                     {
-                        Canvas.SetLeft(selectedElement, Math.Max(position.X - (_startPoint.X - _originalLeft), 0));
+                        Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
+                        CanvasWidth =  Canvas.GetLeft(selectedElement);
                     }
                 }
             }
@@ -149,5 +153,20 @@ namespace ViBGYOR.Adorners
                 e.Handled = true;
             }
         }
+
+        public double CanvasWidth
+        {
+            get
+            {
+                return _canvasWidth;
+            }
+            set
+            {
+                _canvasWidth = Math.Max(_canvasWidth, value + 1000);
+                (this.Parent as DockPanel).Width = _canvasWidth;
+            }
+        }
+
+        private static double _canvasWidth;
     }
 }
