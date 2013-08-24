@@ -219,8 +219,13 @@
                 </Style>
             </VC:RoundButton.Style>
         </VC:RoundButton>
-        <ScrollViewer Name="TimeLineScrollSync" Grid.Column="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden">
-            <StackPanel Name="TimeLine" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <ScrollViewer Name="TimeLineScrollSync" Grid.Column="1" Grid.RowSpan="3" VerticalScrollBarVisibility="Hidden" 
+                      Template="{StaticResource ScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Hidden">
+            <Canvas Name="TimeLine">
+                <Canvas.RenderTransform>
+                    <ScaleTransform x:Name="st"/>
+                </Canvas.RenderTransform>
+            </Canvas>
         </ScrollViewer>
         <Button Name="TopMenu" Content="&#x2195;" Foreground="GreenYellow" FontFamily="Calibri" FontSize="8" FontWeight="ExtraBold"                
                  VerticalAlignment="Top" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 

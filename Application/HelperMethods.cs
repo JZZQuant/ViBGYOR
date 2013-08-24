@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
 
@@ -80,7 +81,7 @@ namespace ViBGYOR
             midistrip.CanvasWidth = e.GetPosition(canvasstrip).X + vc.Width;
         }
 
-        private static void DeleteNote(object sender, MouseButtonEventArgs e)
+        public static void DeleteNote(object sender, MouseButtonEventArgs e)
         {
             (((e.Source as CultureElement).Parent as Canvas).Parent as MidiStrip).selectedElement = null;
             ((e.Source as CultureElement).Parent as Canvas).Children.Remove(e.Source as CultureElement);
@@ -89,21 +90,26 @@ namespace ViBGYOR
         public static void Zoom(object sender, MouseWheelEventArgs e)
         {
             //get + or -1  and rasie invert the scale rate
-            int sign = (Math.Abs(e.Delta) / e.Delta);
-            double localScale = Math.Pow(ScaleRate, sign);
-            defaultNoteMeasure *= localScale;
-            var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
-            foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
+            if (e.Delta != 0)
             {
-                foreach (var child in childs.Children)
+                int sign = (Math.Abs(e.Delta) / e.Delta);
+                double localScale = Math.Pow(ScaleRate, sign);
+                defaultNoteMeasure *= localScale;
+
+                var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
+                foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
                 {
-                    var UIChile = child as FrameworkElement;
-                    UIChile.Width *= localScale;
-                    Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
-                    //St.ScaleX *= ScaleRate;
+                    foreach (var child in childs.Children)
+                    {
+                        var UIChile = child as FrameworkElement;
+                        UIChile.Width *= localScale;
+                        Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
+
+                    }
                 }
+                thiswindow.st.ScaleX *= localScale;
+                e.Handled = true;
             }
-            e.Handled = true;
         }
     }
 }

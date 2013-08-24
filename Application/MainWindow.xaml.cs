@@ -35,23 +35,46 @@ namespace ViBGYOR
             MidiStrip m = new MidiStrip();
             m.Height = 16;
             m.VerticalAlignment = VerticalAlignment.Bottom;
-            DockPanel.SetDock(m,Dock.Bottom);
+            DockPanel.SetDock(m, Dock.Bottom);
             CenterDock.Children.Add(m);
             m.HorizontalAlignment = HorizontalAlignment.Stretch;
             TimeLineCreate();
         }
 
         private void TimeLineCreate()
-        {            
-            //TimeLine = new MidiStrip();
-            //DockPanel.SetDock(TimeLine, Dock.Top);
-            //TimeLine.VerticalAlignment = VerticalAlignment.Top;
-            //TimeLine.Height = 20;
-            //TimeLine.HorizontalAlignment = HorizontalAlignment.Stretch;
-            //var color = this.Resources["BlackShade"] as Brush;
-            //TimeLine.Background = color;
-            //TimeLine.Name = "TimeLine";
-            //CenterDock.Children.Add(TimeLine);
+        {
+            var measure = Convert.ToInt32(measurelength.Text);
+            for (int i = 0; i < 20000; i++)
+            {
+                Line l = new Line();
+                double beat = i / 4;
+                int localbeat = i % 4;
+                double length = i * HelperMethods.defaultNoteMeasure / 4;
+                l.X2 = length;
+                l.X1 = length;
+                l.Y1 = (i % 2 == 0) ? (localbeat) * 4 : 16; l.Y2 = 10000;
+                TextBlock t = new TextBlock();
+                if (i % 4 == 0)
+                {
+                    l.Stroke = Brushes.GreenYellow; l.Fill = Brushes.GreenYellow;
+                    t.Text = (beat+1).ToString();
+                }
+                else if (i % 2 == 0)
+                {
+                    l.Stroke = Brushes.Black; l.Fill = Brushes.Black;
+                    t.Text = (beat+1).ToString()+"."+localbeat.ToString();
+                }
+                else
+                {
+                    l.Stroke = Brushes.Gray; l.Fill = Brushes.Gray;
+                }
+                l.Name = "beat" + (beat + 1).ToString() + "_" + localbeat.ToString();
+
+                l.StrokeThickness = 1; l.Opacity = 0.8;
+                TimeLine.Children.Add(l);               
+                Canvas.SetLeft(t, length + 2);
+                TimeLine.Children.Add(t);
+            }
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -101,7 +124,7 @@ namespace ViBGYOR
             midiStrip.Name = vc.Name + "_Strip";
             midiStrip.MouseDoubleClick += HelperMethods.AddMidiNotesToStrip;
             midiStrip.BorderBrush = Brushes.Black;
-            DockPanel.SetDock(midiStrip,Dock.Top);
+            DockPanel.SetDock(midiStrip, Dock.Top);
             this.CenterDock.Children.Add(midiStrip);
         }
 
@@ -117,7 +140,7 @@ namespace ViBGYOR
 
         private void HorizontalScrollSync(object sender, ScrollChangedEventArgs e)
         {
-            TimeLineScrollSync.ScrollToHorizontalOffset(MainScrollAreaHorizontal.HorizontalOffset);    
+            TimeLineScrollSync.ScrollToHorizontalOffset(MainScrollAreaHorizontal.HorizontalOffset);
         }
     }
 }

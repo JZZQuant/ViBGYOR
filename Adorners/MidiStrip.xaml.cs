@@ -163,6 +163,7 @@ namespace ViBGYOR.Adorners
             set
             {
                 _canvasWidth = Math.Max(_canvasWidth, value + 1000);
+                ((Window.GetWindow((this as MidiStrip)) as FrameworkElement).FindName("TimeLine") as FrameworkElement).Width = _canvasWidth; ;
                 (this.Parent as DockPanel).Width = _canvasWidth;
             }
         }
