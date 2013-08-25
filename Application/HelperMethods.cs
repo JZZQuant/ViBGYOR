@@ -15,8 +15,6 @@ namespace ViBGYOR
 {
     public static class HelperMethods
     {
-        public static double defaultNoteMeasure = 90;
-
         const double ScaleRate = 1.1;
 
         public static void SetInputBindings(RoutedCommand r, Key k, ref CultureElement c)
@@ -71,10 +69,10 @@ namespace ViBGYOR
             vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             //set attributes
             vc.Background = vcMain.Background;
-            Canvas.SetLeft(vc, e.GetPosition(canvasstrip).X);
+            Canvas.SetLeft(vc, GetLeft(e.GetPosition(canvasstrip).X));
             vc.Height = 15;
             vc.BorderBrush = Brushes.Transparent;
-            vc.Width = defaultNoteMeasure;
+            vc.Width = ResizingAdorner.LastWidth == 0 ? FramelessWindow.defaultNoteMeasure : (FramelessWindow.defaultNoteMeasure / BeatLine.BeatWidth) * ResizingAdorner.LastWidth;
             vc.Curvature = 0;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
@@ -94,7 +92,7 @@ namespace ViBGYOR
             {
                 int sign = (Math.Abs(e.Delta) / e.Delta);
                 double localScale = Math.Pow(ScaleRate, sign);
-                defaultNoteMeasure *= localScale;
+                FramelessWindow.defaultNoteMeasure *= localScale;
 
                 var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
                 foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
@@ -110,6 +108,12 @@ namespace ViBGYOR
                 thiswindow.st.ScaleX *= localScale;
                 e.Handled = true;
             }
+        }
+
+        private static double GetLeft(double left)
+        {
+            var t = BeatLine.LineSet.Where((x) => left > x.Key);
+            return t.Last().Key;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -10,6 +11,7 @@ namespace ViBGYOR.Adorners
 {
     public class ResizingAdorner : Adorner
     {
+        public static double LastWidth = 0;
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
         Thumb Left, Right;
@@ -47,8 +49,9 @@ namespace ViBGYOR.Adorners
 
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
-            ((adornedElement.Parent as Canvas).Parent as MidiStrip).CanvasWidth = adornedElement.Width + Canvas.GetLeft(adornedElement);
+            adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement)+ Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width)) - Canvas.GetLeft(adornedElement);
+            ((adornedElement.Parent as Canvas).Parent as MidiStrip).CanvasWidth = adornedElement.Width + Canvas.GetLeft(adornedElement);            
+            LastWidth = adornedElement.Width;
         }
 
         // Handler for resizing from the top-left.
@@ -67,9 +70,10 @@ namespace ViBGYOR.Adorners
             double left_old = Canvas.GetLeft(adornedElement);
             if ((left_old - (width_new - width_old)) >= 0)
             {
-                adornedElement.Width = width_new;
-                Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
+                Canvas.SetLeft(adornedElement, GetLeft(left_old - (width_new - width_old)));
+                adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + width_new - Canvas.GetLeft(adornedElement)); ;               
             }
+            LastWidth = adornedElement.Width;
         }
 
         // Arrange the Adorners.
@@ -128,5 +132,16 @@ namespace ViBGYOR.Adorners
         // the adorner's visual collection.
         protected override int VisualChildrenCount { get { return visualChildren.Count; } }
         protected override Visual GetVisualChild(int index) { return visualChildren[index]; }
+
+        public static double GetLeft(double left)
+        {
+            var t = BeatLine.LineSet.Where((x) => left > x.Key);
+            return t.Last().Key;
+        }
+        public static double GetRight(double Right)
+        {
+            var t = BeatLine.LineSet.Where((x) => Right < x.Key);
+            return t.First().Key;
+        }
     }
 }

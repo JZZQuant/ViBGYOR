@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +15,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
 
@@ -23,6 +26,7 @@ namespace ViBGYOR
     /// </summary>
     public partial class FramelessWindow : Window
     {
+        public static double defaultNoteMeasure = BeatLine.BeatWidth;
         public static int i = 0;
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
         public static RoutedCommand ChangeColur = new RoutedCommand();
@@ -31,50 +35,6 @@ namespace ViBGYOR
         {
             InitializeComponent();
             MouseLeftButtonDown += delegate { DragMove(); };
-            //create an empty midi strip in bottom to fill space for the UI
-            MidiStrip m = new MidiStrip();
-            m.Height = 16;
-            m.VerticalAlignment = VerticalAlignment.Bottom;
-            DockPanel.SetDock(m, Dock.Bottom);
-            CenterDock.Children.Add(m);
-            m.HorizontalAlignment = HorizontalAlignment.Stretch;
-            TimeLineCreate();
-        }
-
-        private void TimeLineCreate()
-        {
-            var measure = Convert.ToInt32(measurelength.Text);
-            for (int i = 0; i < 20000; i++)
-            {
-                Line l = new Line();
-                double beat = i / 4;
-                int localbeat = i % 4;
-                double length = i * HelperMethods.defaultNoteMeasure / 4;
-                l.X2 = length;
-                l.X1 = length;
-                l.Y1 = (i % 2 == 0) ? (localbeat) * 4 : 16; l.Y2 = 10000;
-                TextBlock t = new TextBlock();
-                if (i % 4 == 0)
-                {
-                    l.Stroke = Brushes.GreenYellow; l.Fill = Brushes.GreenYellow;
-                    t.Text = (beat+1).ToString();
-                }
-                else if (i % 2 == 0)
-                {
-                    l.Stroke = Brushes.Black; l.Fill = Brushes.Black;
-                    t.Text = (beat+1).ToString()+"."+localbeat.ToString();
-                }
-                else
-                {
-                    l.Stroke = Brushes.Gray; l.Fill = Brushes.Gray;
-                }
-                l.Name = "beat" + (beat + 1).ToString() + "_" + localbeat.ToString();
-
-                l.StrokeThickness = 1; l.Opacity = 0.8;
-                TimeLine.Children.Add(l);               
-                Canvas.SetLeft(t, length + 2);
-                TimeLine.Children.Add(t);
-            }
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -142,5 +102,46 @@ namespace ViBGYOR
         {
             TimeLineScrollSync.ScrollToHorizontalOffset(MainScrollAreaHorizontal.HorizontalOffset);
         }
+
+        private void WindowLoaded(object sender, RoutedEventArgs e)
+        {
+            //create an empty midi strip in bottom to fill space for the UI
+            MidiStrip m = new MidiStrip();
+            m.Height = 16;
+            m.VerticalAlignment = VerticalAlignment.Bottom;
+            DockPanel.SetDock(m, Dock.Bottom);
+            CenterDock.Children.Add(m);
+            m.HorizontalAlignment = HorizontalAlignment.Stretch;
+            TimeLineCreate();
+
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send,new ThreadStart(() =>
+                {
+                    foreach (var dict in BeatLine.LineSet)
+                    {
+                        TimeLine.Children.Add(dict.Value.Line);
+                        TimeLine.Children.Add(dict.Value.TextBlock);
+                    }
+                }
+                ));
+        }
+
+        private void TimeLineCreate()
+        {
+            var measureSign = Convert.ToInt32(measurelength.Text);
+            for (int measure = 0; measure < BeatLine.TotalMeasures; measure++)
+            {
+                for (int beat = 0; beat < measureSign; beat++)
+                {
+                    BeatLine currentline = new BeatLine(beat, measure, measureSign);
+                }
+            }
+            var count = BeatLine.LineSet.Count;
+            for (int i = 0; i < count - 1; i++)
+            {
+                var dict = BeatLine.LineSet[i * BeatLine.BeatWidth];
+                SubBeatLine.CreateSubBeatSet(dict, 4);
+            }
+        }
     }
 }
+

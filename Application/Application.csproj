@@ -112,6 +112,10 @@
       <Project>{fe7ade96-da2e-4eb6-9d8b-5c9eb480d188}</Project>
       <Name>Controls %28Controls\Controls%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TimeLine\TimeLine.csproj">
+      <Project>{2e07f35f-ecec-42cb-ba5b-8fd66d36349c}</Project>
+      <Name>TimeLine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
