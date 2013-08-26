@@ -49,8 +49,8 @@ namespace ViBGYOR.Adorners
 
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
-            adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement)+ Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width)) - Canvas.GetLeft(adornedElement);
-            ((adornedElement.Parent as Canvas).Parent as MidiStrip).CanvasWidth = adornedElement.Width + Canvas.GetLeft(adornedElement);            
+            adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width)) - (Canvas.GetLeft(adornedElement));
+            ((adornedElement.Parent as Canvas).Parent as MidiStrip).CanvasWidth = adornedElement.Width + Canvas.GetLeft(adornedElement);
             LastWidth = adornedElement.Width;
         }
 
@@ -71,7 +71,7 @@ namespace ViBGYOR.Adorners
             if ((left_old - (width_new - width_old)) >= 0)
             {
                 Canvas.SetLeft(adornedElement, GetLeft(left_old - (width_new - width_old)));
-                adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + width_new - Canvas.GetLeft(adornedElement)); ;               
+                adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + width_new - Canvas.GetLeft(adornedElement)); ;
             }
             LastWidth = adornedElement.Width;
         }
@@ -135,13 +135,14 @@ namespace ViBGYOR.Adorners
 
         public static double GetLeft(double left)
         {
-            var t = BeatLine.LineSet.Where((x) => left > x.Key);
-            return t.Last().Key;
+            var t = BeatLine.LineSet.Where((x) => left / BeatLine.ZoomFactor > x.Key);
+            return BeatLine.ZoomFactor * t.Last().Key;
         }
         public static double GetRight(double Right)
         {
-            var t = BeatLine.LineSet.Where((x) => Right < x.Key);
-            return t.First().Key;
+            
+            var t = BeatLine.LineSet.Where((x) => Right/BeatLine.ZoomFactor < x.Key);
+            return BeatLine.ZoomFactor * t.First().Key;
         }
     }
 }

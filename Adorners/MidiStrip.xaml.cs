@@ -99,7 +99,7 @@ namespace ViBGYOR.Adorners
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
                     if (position.X - (_startPoint.X - _originalLeft) > 0)
                     {
-                        Canvas.SetLeft(selectedElement, ResizingAdorner.GetRight(position.X - (_startPoint.X - _originalLeft)));
+                        Canvas.SetLeft(selectedElement, ResizingAdorner.GetLeft(position.X - (_startPoint.X - _originalLeft)));
                         CanvasWidth =  Canvas.GetLeft(selectedElement);
                     }
                 }

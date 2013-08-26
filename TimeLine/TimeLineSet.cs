@@ -11,9 +11,9 @@ namespace ViBGYOR
 {
     public class BeatLine
     {
+        public static double ZoomFactor = 1;
         public static double BeatWidth = 90;
         public const int TotalMeasures = 200;
-
         public static SortedDictionary<double, BeatLine> LineSet = new SortedDictionary<double,BeatLine>();
 
         private int signNumerator;

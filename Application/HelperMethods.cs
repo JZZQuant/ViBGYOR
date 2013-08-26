@@ -69,10 +69,10 @@ namespace ViBGYOR
             vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
             //set attributes
             vc.Background = vcMain.Background;
-            Canvas.SetLeft(vc, GetLeft(e.GetPosition(canvasstrip).X));
+            Canvas.SetLeft(vc, ResizingAdorner.GetLeft(e.GetPosition(canvasstrip).X));
             vc.Height = 15;
             vc.BorderBrush = Brushes.Transparent;
-            vc.Width = ResizingAdorner.LastWidth == 0 ? FramelessWindow.defaultNoteMeasure : (FramelessWindow.defaultNoteMeasure / BeatLine.BeatWidth) * ResizingAdorner.LastWidth;
+            vc.Width = ResizingAdorner.LastWidth == 0 ? FramelessWindow.defaultNoteMeasure : ResizingAdorner.LastWidth;
             vc.Curvature = 0;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
@@ -93,7 +93,8 @@ namespace ViBGYOR
                 int sign = (Math.Abs(e.Delta) / e.Delta);
                 double localScale = Math.Pow(ScaleRate, sign);
                 FramelessWindow.defaultNoteMeasure *= localScale;
-
+                ResizingAdorner.LastWidth *= localScale;
+                BeatLine.ZoomFactor = FramelessWindow.defaultNoteMeasure / BeatLine.BeatWidth;
                 var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
                 foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
                 {
@@ -102,18 +103,12 @@ namespace ViBGYOR
                         var UIChile = child as FrameworkElement;
                         UIChile.Width *= localScale;
                         Canvas.SetLeft(UIChile, Canvas.GetLeft(UIChile) * localScale);
-
                     }
                 }
+
                 thiswindow.st.ScaleX *= localScale;
                 e.Handled = true;
             }
-        }
-
-        private static double GetLeft(double left)
-        {
-            var t = BeatLine.LineSet.Where((x) => left > x.Key);
-            return t.Last().Key;
         }
     }
 }
