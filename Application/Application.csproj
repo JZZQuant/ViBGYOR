@@ -67,6 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DictionaryHelpers.cs" />
     <Compile Include="HelperMethods.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -115,6 +116,10 @@
     <ProjectReference Include="..\TimeLine\TimeLine.csproj">
       <Project>{2e07f35f-ecec-42cb-ba5b-8fd66d36349c}</Project>
       <Name>TimeLine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPFHelpers\WPFHelpers.csproj">
+      <Project>{0d8bdb83-392e-4d72-94ab-231e015c7066}</Project>
+      <Name>WPFHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

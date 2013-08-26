@@ -176,6 +176,27 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <ContextMenu x:Key="LineMenu" >
+            <ContextMenu.Background>
+                <StaticResource ResourceKey="BlackShade" />
+            </ContextMenu.Background>
+            <ContextMenu.BorderBrush>
+                <StaticResource ResourceKey="BlackShade" />
+            </ContextMenu.BorderBrush>
+            <MenuItem >
+                <MenuItem.Header>
+                    <DockPanel>
+                        <Label Content="Signature"/>
+                        <TextBox FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                                         Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                                                         Background="{StaticResource ResourceKey=BlackShade}"  TextChanged="TimingChangedFromMeasure" Foreground="Black"></TextBox>
+                        <TextBox FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                                                         Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
+                                                         Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>
+                    </DockPanel>
+                </MenuItem.Header>
+            </MenuItem>
+        </ContextMenu>
     </Window.Resources>
     <Window.Background>
         <StaticResource ResourceKey="BlackShade" />
@@ -237,7 +258,7 @@
                 <StaticResource ResourceKey="BlackShade" />
             </Button.BorderBrush>
             <Button.ContextMenu>
-                <ContextMenu >
+                <ContextMenu>
                     <ContextMenu.Background>
                         <StaticResource ResourceKey="BlackShade" />
                     </ContextMenu.Background>
@@ -250,7 +271,7 @@
                                 <Label Content="Signature"/>
                                 <TextBox Name="measurelength" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                                                          Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
-                                                         Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>
+                                                         Background="{StaticResource ResourceKey=BlackShade}" TextChanged="TimingChange" Foreground="Black"></TextBox>
                                 <TextBox Name="notelength" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                                                          Text="4" Width="20" Height="20" BorderBrush="{StaticResource ResourceKey=BlackShade}"
                                                          Background="{StaticResource ResourceKey=BlackShade}" Foreground="Black"></TextBox>

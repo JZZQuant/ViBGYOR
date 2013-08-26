@@ -112,21 +112,55 @@ namespace ViBGYOR
             DockPanel.SetDock(m, Dock.Bottom);
             CenterDock.Children.Add(m);
             m.HorizontalAlignment = HorizontalAlignment.Stretch;
-            TimeLineCreate();
+        }
 
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send,new ThreadStart(() =>
+        private void TimingChangedFromMeasure(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var textbox = e.Source as TextBox;
+                double onset;
+                int offmeasure;
+                DictionaryHelpers.RemoveRange(ref BeatLine.LineSet, ref this.TimeLine, ref textbox, out onset, out offmeasure);
+                var measureSign = Convert.ToInt32((e.Source as TextBox).Text);
+                for (int measure = offmeasure; measure < BeatLine.TotalMeasures; measure++)
                 {
-                    foreach (var dict in BeatLine.LineSet)
+                    for (int beat = 0; beat < measureSign; beat++)
                     {
+
+                        BeatLine currentline = new BeatLine(beat, measure, measureSign, onset - (BeatLine.BeatWidth * measureSign * offmeasure));
+                    }
+                }
+
+                var count = BeatLine.LineSet.Last().Key;
+                for (double i = onset; i < count; i += BeatLine.BeatWidth)
+                {
+
+                    var dict = BeatLine.LineSet[i];
+                    SubBeatLine.CreateSubBeatSet(dict, 4);
+                }
+
+                foreach (var dict in BeatLine.LineSet)
+                {
+                    if (dict.Key >= onset)
+                    {
+                        var Menu = this.Resources["LineMenu"] as ContextMenu;
+                        dict.Value.Line.ContextMenu = Menu;
                         TimeLine.Children.Add(dict.Value.Line);
                         TimeLine.Children.Add(dict.Value.TextBlock);
                     }
                 }
-                ));
+            }
+            catch
+            {
+
+            }
         }
 
-        private void TimeLineCreate()
+        private void TimingChange(object sender, TextChangedEventArgs e)
         {
+            BeatLine.LineSet.Clear();
+            TimeLine.Children.Clear();
             var measureSign = Convert.ToInt32(measurelength.Text);
             for (int measure = 0; measure < BeatLine.TotalMeasures; measure++)
             {
@@ -140,6 +174,14 @@ namespace ViBGYOR
             {
                 var dict = BeatLine.LineSet[i * BeatLine.BeatWidth];
                 SubBeatLine.CreateSubBeatSet(dict, 4);
+            }
+
+            foreach (var dict in BeatLine.LineSet)
+            {
+                var Menu = this.Resources["LineMenu"] as ContextMenu;
+                dict.Value.Line.ContextMenu = Menu;
+                TimeLine.Children.Add(dict.Value.Line);
+                TimeLine.Children.Add(dict.Value.TextBlock);
             }
         }
     }

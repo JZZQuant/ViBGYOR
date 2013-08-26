@@ -14,7 +14,15 @@ namespace ViBGYOR
         public static double ZoomFactor = 1;
         public static double BeatWidth = 90;
         public const int TotalMeasures = 200;
-        public static SortedDictionary<double, BeatLine> LineSet = new SortedDictionary<double,BeatLine>();
+        public static SortedDictionary<double, BeatLine> LineSet = new SortedDictionary<double, BeatLine>();
+
+        private double offset;
+
+        public double Offset
+        {
+            get { return offset; }
+            set { offset = value; }
+        }
 
         private int signNumerator;
         public int SignNumerator
@@ -32,14 +40,14 @@ namespace ViBGYOR
                 {
                     if (subbeatDivision == null)
                     {
-                        x = (Measure * SignNumerator + Beat) * BeatWidth;
+                        x = (Measure * SignNumerator + Beat) * BeatWidth + offset;
                     }
                     else
                     {
-                        x = subbeatDivision.start.X + (subbeatDivision.end.X - subbeatDivision.start.X) * ((double)subbeatDivision.fraction.Item1 / subbeatDivision.fraction.Item2);
+                        x = subbeatDivision.start.X +( (subbeatDivision.end.X - subbeatDivision.start.X) * ((double)subbeatDivision.fraction.Item1 / subbeatDivision.fraction.Item2)) + offset;
                     }
                 }
-                return x;
+                return x ;
             }
             private set { X = value; }
         }
@@ -80,7 +88,7 @@ namespace ViBGYOR
             {
                 if (name == null)
                 {
-                    name = "Beat"+ Measure.ToString() + "_" + Beat.ToString();
+                    name = "Beat" + Measure.ToString() + "_" + Beat.ToString();
                 }
                 return name;
             }
@@ -150,7 +158,7 @@ namespace ViBGYOR
                     }
                     else
                     {
-                        textBlock = new TextBlock() { Text=""};
+                        textBlock = new TextBlock() { Text = "" };
                     }
                 }
                 Canvas.SetLeft(textBlock, X + 2);
@@ -162,7 +170,7 @@ namespace ViBGYOR
         private Brush color;
         public Brush Color
         {
-            get 
+            get
             {
                 if (color == null)
                 {
@@ -183,7 +191,7 @@ namespace ViBGYOR
                         color = Brushes.DeepSkyBlue;
                     }
                 }
-                return color; 
+                return color;
             }
             set { color = value; }
         }
@@ -199,6 +207,25 @@ namespace ViBGYOR
 
         public BeatLine(int beat, int measure, int signNumerator)
         {
+            this.beat = beat;
+            this.measure = measure;
+            this.signNumerator = signNumerator;
+            LineSet.Add(this.X, this);
+        }
+
+        public BeatLine(int beat, int measure, SubBeatLine subbeatDivision, int signNumerator, double offset)
+        {
+            this.offset = offset;
+            this.beat = beat;
+            this.measure = measure;
+            this.subbeatDivision = subbeatDivision;
+            this.signNumerator = signNumerator;
+            LineSet.Add(this.X, this);
+        }
+
+        public BeatLine(int beat, int measure, int signNumerator, double offset)
+        {
+            this.offset = offset;
             this.beat = beat;
             this.measure = measure;
             this.signNumerator = signNumerator;
