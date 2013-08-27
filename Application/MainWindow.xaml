@@ -79,7 +79,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Grid>
+                        <Grid MouseRightButtonUp="Grid_MouseRightButtonUp">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4" />
                                 <ColumnDefinition Width="4" />

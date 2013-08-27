@@ -44,10 +44,10 @@ namespace ViBGYOR
                     }
                     else
                     {
-                        x = subbeatDivision.start.X +( (subbeatDivision.end.X - subbeatDivision.start.X) * ((double)subbeatDivision.fraction.Item1 / subbeatDivision.fraction.Item2)) + offset;
+                        x = subbeatDivision.start.X + ((subbeatDivision.end.X - subbeatDivision.start.X) * ((double)subbeatDivision.fraction.Item1 / subbeatDivision.fraction.Item2)) + offset;
                     }
                 }
-                return x ;
+                return x;
             }
             private set { X = value; }
         }
@@ -158,7 +158,7 @@ namespace ViBGYOR
                     }
                     else
                     {
-                        textBlock = new TextBlock() { Text =  subbeatDivision.fraction.Item1.ToString()};
+                        textBlock = new TextBlock() { Text = (subbeatDivision.fraction.Item1 + 1).ToString(), Opacity = 0.4 };
                     }
                 }
                 Canvas.SetLeft(textBlock, X + 2);

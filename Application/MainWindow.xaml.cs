@@ -37,11 +37,10 @@ namespace ViBGYOR
         private double selectedbeatLineEnd;
         private int tupleNumber;
 
-
         public FramelessWindow()
         {
             InitializeComponent();
-            //MouseLeftButtonDown += delegate { DragMove(); };
+            MouseLeftButtonDown += delegate { DragMove(); };
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -275,6 +274,14 @@ namespace ViBGYOR
                     TimeLine.Children.Insert(startC++, dict.Value.TextBlock);
                 }
             }
+        }
+
+        private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            this.Width = SystemParameters.PrimaryScreenWidth;
+            var windowWidth = (double)GetValue(WidthProperty);
+            Left = (SystemParameters.PrimaryScreenWidth / 2) - (windowWidth / 2);
+            e.Handled = true;
         }
     }
 }
