@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -66,9 +69,9 @@ namespace ViBGYOR.Adorners
         // Handler for drag stopping on user choise
         void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
         {
-            foreach (MidiStrip strip in (this.Parent as DockPanel).Children)
+            foreach (MidiStrip strip in (this.Parent as DockPanel).Children.OfType<MidiStrip>())
             {
-                strip.StopDragging();
+                    strip.StopDragging();
             }
             e.Handled = true;
         }

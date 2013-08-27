@@ -3,10 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:ViBGYOR" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="ViBGYOR.FramelessWindow"
         xmlns:VC="clr-namespace:ViBGYOR.Controls;assembly=ViBGYOR.Controls" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Luna" 
-        xmlns:VA="clr-namespace:ViBGYOR.Adorners;assembly=ViBGYOR.Adorners"
-        Height="165.544" Width="829.188" AllowDrop="True" BorderThickness="2" WindowStyle="None" Loaded="WindowLoaded"
-        AllowsTransparency="True" BorderBrush="#FF525252" ResizeMode="CanResizeWithGrip" Icon="./Resources/AppIcon.png"
-        Title="ViBGYOR">
+        xmlns:VA="clr-namespace:ViBGYOR.Adorners;assembly=ViBGYOR.Adorners" Height="165.544" Width="829.188" AllowDrop="True" BorderThickness="2" WindowStyle="None"
+        Loaded="WindowLoaded" AllowsTransparency="True" BorderBrush="#FF525252" ResizeMode="CanResizeWithGrip" Icon="./Resources/AppIcon.png" Title="ViBGYOR">
     <Window.Resources>
         <LinearGradientBrush x:Key="BlackShade" EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="#FF707070"/>
@@ -216,7 +214,7 @@
             <ColumnDefinition Width="386*"/>
             <ColumnDefinition Width="17"/>
         </Grid.ColumnDefinitions>
-        <VC:RoundButton Name="CloseButton" HorizontalAlignment="Stretch" Grid.Column="2" VerticalAlignment="Stretch" Click="OnClose">
+        <VC:RoundButton Name="CloseButton" HorizontalAlignment="Stretch" Grid.Column="2" VerticalAlignment="Stretch" PreviewMouseLeftButtonUp="OnClose" Click="OnClose">
             <VC:RoundButton.Style>
                 <Style TargetType="{x:Type VC:RoundButton}">
                     <Style.Resources>
@@ -241,7 +239,8 @@
             </VC:RoundButton.Style>
         </VC:RoundButton>
         <ScrollViewer Name="TimeLineScrollSync" Grid.Column="1" Grid.RowSpan="3" VerticalScrollBarVisibility="Hidden" 
-                      Template="{StaticResource ScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Hidden">
+                      Template="{StaticResource ScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Hidden" KeyUp="TimeLineScrollSync_KeyUp"
+                       PreviewMouseLeftButtonDown="MouseDownOnTimeLine" PreviewMouseLeftButtonUp="MouseUpOnTimeLine" PreviewMouseMove="MouseMoveOnTimeLine">
             <Canvas Name="TimeLine">
                 <Canvas.RenderTransform>
                     <ScaleTransform x:Name="st"/>
@@ -334,8 +333,11 @@
         </ScrollViewer>
         <ScrollViewer PreviewMouseWheel="Zoom" Name="MainScrollAreaHorizontal" Focusable="False" HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Hidden" ScrollChanged="HorizontalScrollSync" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
-                      ScrollViewer.IsDeferredScrollingEnabled="True" Template="{StaticResource ScrollViewerControlTemplate}" >
-            <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False">
+                      ScrollViewer.IsDeferredScrollingEnabled="True" Template="{StaticResource ScrollViewerControlTemplate}">
+                <DockPanel Name="CenterDock" HorizontalAlignment="Stretch" VerticalAlignment="Top" LastChildFill="False">
+                <Canvas>
+                    <Rectangle Name="selectionBox" Visibility="Collapsed" Fill="Orange" Opacity="0.5" Stroke="Black" StrokeThickness="1"></Rectangle>
+                </Canvas>
             </DockPanel>
         </ScrollViewer>
     </Grid>

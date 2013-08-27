@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
+using System.Timers;
 
 namespace ViBGYOR
 {
@@ -30,11 +31,17 @@ namespace ViBGYOR
         public static int i = 0;
         public static RoutedCommand AddNewCultureElementCommand = new RoutedCommand();
         public static RoutedCommand ChangeColur = new RoutedCommand();
+        bool mouseDown = false; // Set to 'true' when mouse is held down.
+        Point mouseDownPos;
+        private double selectedbeatLineStart;
+        private double selectedbeatLineEnd;
+        private int tupleNumber;
+
 
         public FramelessWindow()
         {
             InitializeComponent();
-            MouseLeftButtonDown += delegate { DragMove(); };
+            //MouseLeftButtonDown += delegate { DragMove(); };
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -182,6 +189,91 @@ namespace ViBGYOR
                 dict.Value.Line.ContextMenu = Menu;
                 TimeLine.Children.Add(dict.Value.Line);
                 TimeLine.Children.Add(dict.Value.TextBlock);
+            }
+        }
+
+        private void MouseDownOnTimeLine(object sender, MouseButtonEventArgs e)
+        {
+            // Capture and track the mouse.
+            mouseDown = true;
+            mouseDownPos = e.GetPosition(TimeLine);
+            TimeLine.CaptureMouse();
+
+            // Initial placement of the drag selection box.         
+            Canvas.SetLeft(selectionBox, mouseDownPos.X * BeatLine.ZoomFactor);
+            Canvas.SetTop(selectionBox, mouseDownPos.Y);
+            selectionBox.Width = 0;
+            selectionBox.Height = 0;
+
+            // Make the drag selection box visible.
+            selectionBox.Visibility = Visibility.Visible;
+            e.Handled = false;
+        }
+
+        private void MouseMoveOnTimeLine(object sender, MouseEventArgs e)
+        {
+            if (mouseDown)
+            {
+                // When the mouse is held down, reposition the drag selection box.
+                Point mousePos = e.GetPosition(TimeLine);
+
+                if (mouseDownPos.X < mousePos.X)
+                {
+                    Canvas.SetLeft(selectionBox, mouseDownPos.X * BeatLine.ZoomFactor);
+                    selectionBox.Width = (mousePos.X - mouseDownPos.X) * BeatLine.ZoomFactor;
+                    selectedbeatLineStart = mouseDownPos.X;
+                    selectedbeatLineEnd = mousePos.X;
+                }
+                else
+                {
+                    Canvas.SetLeft(selectionBox, mousePos.X * BeatLine.ZoomFactor);
+                    selectionBox.Width = (mouseDownPos.X - mousePos.X) * BeatLine.ZoomFactor;
+                    selectedbeatLineEnd = mouseDownPos.X ;
+                    selectedbeatLineStart = mousePos.X;
+                }
+
+                if (mouseDownPos.Y < mousePos.Y)
+                {
+                    Canvas.SetTop(selectionBox, mouseDownPos.Y);
+                    selectionBox.Height = mousePos.Y - mouseDownPos.Y;
+                }
+                else
+                {
+                    Canvas.SetTop(selectionBox, mousePos.Y);
+                    selectionBox.Height = mouseDownPos.Y - mousePos.Y;
+                }
+            }
+            e.Handled = false;
+        }
+
+        private void MouseUpOnTimeLine(object sender, MouseButtonEventArgs e)
+        {
+            // Release the mouse capture and stop tracking it.
+            mouseDown = false;
+            TimeLine.ReleaseMouseCapture();
+
+            // Hide the drag selection box.
+            selectionBox.Visibility = Visibility.Collapsed;
+
+            Point mouseUpPos = e.GetPosition(TimeLine);
+            e.Handled = false;
+        }
+
+        private void TimeLineScrollSync_KeyUp(object sender, KeyEventArgs e)
+        {
+            int tupleNumber;
+            int.TryParse(e.Key.ToString().TrimStart('D'), out tupleNumber);
+            if (tupleNumber != 0)
+            {
+                double start; double end;
+                var startC = HelperMethods.TuplateTheArea(selectedbeatLineStart, selectedbeatLineEnd, tupleNumber, ref TimeLine, out start, out end);
+                foreach (var dict in BeatLine.LineSet.Where((x) => x.Key >= start && x.Key < end))
+                {
+                    var Menu = this.Resources["LineMenu"] as ContextMenu;
+                    dict.Value.Line.ContextMenu = Menu;
+                    TimeLine.Children.Insert(startC++, dict.Value.Line);
+                    TimeLine.Children.Insert(startC++, dict.Value.TextBlock);
+                }
             }
         }
     }

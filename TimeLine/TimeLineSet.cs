@@ -158,7 +158,7 @@ namespace ViBGYOR
                     }
                     else
                     {
-                        textBlock = new TextBlock() { Text = "" };
+                        textBlock = new TextBlock() { Text =  subbeatDivision.fraction.Item1.ToString()};
                     }
                 }
                 Canvas.SetLeft(textBlock, X + 2);

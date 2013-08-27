@@ -62,8 +62,8 @@ namespace ViBGYOR
             CultureElement vc = new CultureElement();
             //retrieve all parents and belonging objects
             var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
-            var position = thiswindow.CenterDock.Children.IndexOf(midistrip);
-            var vcMain = thiswindow.LeftDock.Children[position - 1] as CultureElement;
+            var position = thiswindow.CenterDock.Children.IndexOf(midistrip) - 1;
+            var vcMain = thiswindow.LeftDock.Children.OfType<CultureElement>().ElementAt(position - 1);
             //set Events
             HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
             vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
@@ -96,7 +96,7 @@ namespace ViBGYOR
                 ResizingAdorner.LastWidth *= localScale;
                 BeatLine.ZoomFactor = FramelessWindow.defaultNoteMeasure / BeatLine.BeatWidth;
                 var thiswindow = Window.GetWindow((e.Source as FrameworkElement)) as FramelessWindow;
-                foreach (MidiStrip childs in (thiswindow.CenterDock).Children)
+                foreach (MidiStrip childs in (thiswindow.CenterDock).Children.OfType<MidiStrip>())
                 {
                     foreach (var child in childs.Children)
                     {
@@ -109,6 +109,19 @@ namespace ViBGYOR
                 thiswindow.st.ScaleX *= localScale;
                 e.Handled = true;
             }
+        }
+
+        internal static int TuplateTheArea(double selectedbeatLineStart, double selectedbeatLineEnd, int tupleNumber, ref Canvas cv, out double start, out double end)
+        {
+            start = BeatLine.LineSet.Where((x) => selectedbeatLineStart < x.Key).First().Key;
+            end = BeatLine.LineSet.Where((x) => selectedbeatLineEnd > x.Key).Last().Key;
+            var beat = BeatLine.LineSet;
+            Canvas can = cv;
+            var linestart = BeatLine.LineSet[start];
+            var lineend = BeatLine.LineSet[end];
+            var startC = DictionaryHelpers.RemoveRange(beat, ref can, start, end);
+            SubBeatLine.CreateSubBeatSet(linestart, lineend, tupleNumber);
+            return startC;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ViBGYOR
             }
         }
 
-        public static void RemoveRange(ref SortedDictionary<double, BeatLine> liness, ref Canvas timeline, ref TextBox textbox,out double onset ,out int offmeasure)
+        public static void RemoveRange(ref SortedDictionary<double, BeatLine> liness, ref Canvas timeline, ref TextBox textbox, out double onset, out int offmeasure)
         {
             var line = UIHelper.FindVisualParent<ContextMenu>(textbox).PlacementTarget as Line;
             onset = line.X1;
@@ -34,6 +34,19 @@ namespace ViBGYOR
             {
                 liness.Remove(key);
             }
+        }
+
+        public static int RemoveRange(SortedDictionary<double, BeatLine> liness, ref Canvas timeline, double start, double end)
+        {
+            var keys = liness.Keys.Where((x) => x >= start && x < end).ToArray();
+            var startC = timeline.Children.IndexOf(liness[start].Line);
+            var endC = timeline.Children.IndexOf(liness[end].Line);
+            foreach (var key in keys)
+            {
+                liness.Remove(key);
+            }
+            timeline.Children.RemoveRange(startC, endC - startC);
+            return startC;
         }
     }
 }

@@ -63,6 +63,7 @@ namespace ViBGYOR
                 BeatLine currentline = new BeatLine(start.Beat, start.Measure, s, start.SignNumerator);
             }
         }
+
         public static void CreateSubBeatSet(BeatLine start, int fraction)
         {
             for (int i = 1; i < fraction; i++)
