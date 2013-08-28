@@ -18,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CultureElement}">
                     <Grid>
-                        <Border BorderBrush="Black" BorderThickness="1" Background="{TemplateBinding Background}"
+                        <Border Name="ButtonBorder" BorderBrush="Transparent" BorderThickness="1" Background="{TemplateBinding Background}"
                             CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Curvature}">
                             <ContentControl FontFamily="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Font}" 
                                             Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DisplayTxt}"
@@ -63,7 +63,21 @@
                                 </ContextMenu>
                             </Border.ContextMenu>
                         </Border>
-                    </Grid>     
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{DynamicResource ResourceKey=BlackShade}" />
+                            <Setter TargetName="ButtonBorder" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="True" >
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource GlowOn}" />
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource GlowOff}" />
+                            </Trigger.ExitActions>
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

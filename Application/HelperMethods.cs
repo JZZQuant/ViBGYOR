@@ -76,6 +76,7 @@ namespace ViBGYOR
             vc.Curvature = 0;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
+            vc.Focus();
             midistrip.CanvasWidth = e.GetPosition(canvasstrip).X + vc.Width;
         }
 
