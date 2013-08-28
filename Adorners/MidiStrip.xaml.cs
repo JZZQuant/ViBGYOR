@@ -157,6 +157,17 @@ namespace ViBGYOR.Adorners
                 selected = true;
                 e.Handled = true;
             }
+            else
+            {
+                if (CtrlSelected.Count > 0)
+                {
+                    foreach (var el in CtrlSelected)
+                    {
+                        LogicalUnFocusElement(el);
+                    }
+                }
+                CtrlSelected.Clear();
+            }
         }
 
         public static void SelectedElementsChanged(UIElement selectedElement, bool p)
@@ -178,29 +189,33 @@ namespace ViBGYOR.Adorners
             }
             else
             {
-                if (CtrlSelected.Count > 0)
+                bool flag = false; ;
+                if (CtrlSelected.Count == 1 && CtrlSelected[0] == selectedElement)
                 {
-                    foreach (var el in CtrlSelected)
-                    {
-                        LogicalUnFocusElement(el);
-                    }
+                    flag = true;
                 }
+                foreach (var el in CtrlSelected)
+                {
+                    LogicalUnFocusElement(el);
+                }
+
                 CtrlSelected.Clear();
-                LogicalFocusElement(selectedElement);
-                CtrlSelected.Add(selectedElement);
+                if (!flag)
+                {
+                    LogicalFocusElement(selectedElement);
+                    CtrlSelected.Add(selectedElement); 
+                }
             }
         }
 
         public static void LogicalFocusElement(UIElement selectedElement)
         {
-            (selectedElement as CultureElement).BorderBrush = Brushes.YellowGreen;
-            (selectedElement as CultureElement).BorderThickness = new Thickness(2);
+            (selectedElement as CultureElement).Opacity = 0.9;
         }
 
         public static void LogicalUnFocusElement(UIElement selectedElement)
         {
-            (selectedElement as CultureElement).BorderBrush = Brushes.Transparent;
-            (selectedElement as CultureElement).BorderThickness = new Thickness(1);
+            (selectedElement as CultureElement).Opacity = 0.6;
         }
 
         public double CanvasWidth

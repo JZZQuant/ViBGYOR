@@ -39,7 +39,7 @@ namespace ViBGYOR
         public FramelessWindow()
         {
             InitializeComponent();
-            //MouseLeftButtonDown += delegate { DragMove(); };
+            MouseLeftButtonDown += delegate { DragMove(); };
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -256,9 +256,14 @@ namespace ViBGYOR
             Point mouseUpPos = e.GetPosition(TimeLine);
             e.Handled = false;
 
+            foreach (var el in MidiStrip.CtrlSelected)
+            {
+                MidiStrip.LogicalUnFocusElement(el);
+            }
+            MidiStrip.CtrlSelected.Clear();
             foreach (var midiStrip in CenterDock.Children.OfType<MidiStrip>())
             {
-                foreach (var cult in midiStrip.Children.OfType<CultureElement>().Where((x) => Canvas.GetLeft(x) > selectedbeatLineStart && Canvas.GetLeft(x) < selectedbeatLineEnd))
+                foreach (var cult in midiStrip.Children.OfType<CultureElement>().Where((x) => Canvas.GetLeft(x) + x.Width > selectedbeatLineStart && Canvas.GetLeft(x) < selectedbeatLineEnd))
                 {
                     MidiStrip.SelectedElementsChanged(cult, true);
                 }
@@ -280,7 +285,7 @@ namespace ViBGYOR
                     TimeLine.Children.Insert(startC++, dict.Value.Line);
                     TimeLine.Children.Insert(startC++, dict.Value.TextBlock);
                 }
-            }           
+            }
         }
 
         private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -301,7 +306,7 @@ namespace ViBGYOR
                         HelperMethods.Copy();
                         break;
                     case "V":
-                        HelperMethods.Paste(Mouse.GetPosition(TimeLine).X,CenterDock);
+                        HelperMethods.Paste(Mouse.GetPosition(TimeLine).X, CenterDock);
                         break;
                     case "X":
                         HelperMethods.Cut();

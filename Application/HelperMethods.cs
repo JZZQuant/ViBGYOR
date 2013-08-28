@@ -57,11 +57,11 @@ namespace ViBGYOR
 
         public static void AddMidiNotesToStrip(object sender, MouseButtonEventArgs e)
         {
-            var canvasstrip = e.OriginalSource as Canvas;
-            var midistrip = e.Source as MidiStrip;
+            var midistrip = sender as MidiStrip;
+            var canvasstrip = midistrip.Part_Host as Canvas;
             CultureElement vc = new CultureElement();
             //retrieve all parents and belonging objects
-            var thiswindow = Window.GetWindow((e.Source as MidiStrip)) as FramelessWindow;
+            var thiswindow = Window.GetWindow(midistrip) as FramelessWindow;
             var position = thiswindow.CenterDock.Children.IndexOf(midistrip) - 1;
             var vcMain = thiswindow.LeftDock.Children.OfType<CultureElement>().ElementAt(position - 1);
             //set Events
