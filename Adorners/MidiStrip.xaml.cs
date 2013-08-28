@@ -161,6 +161,7 @@ namespace ViBGYOR.Adorners
 
         public static void SelectedElementsChanged(UIElement selectedElement, bool p)
         {
+            if (selectedElement.GetType() != typeof(CultureElement)) return;
             selectedElement.Focus();
             if (p)
             {

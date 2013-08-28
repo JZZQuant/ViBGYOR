@@ -73,7 +73,7 @@ namespace ViBGYOR
             vc.Height = 15;
             vc.BorderBrush = Brushes.Transparent;
             vc.Width = ResizingAdorner.LastWidth == 0 ? FramelessWindow.defaultNoteMeasure : ResizingAdorner.LastWidth;
-            vc.Curvature = 0;
+            vc.Curvature = 4;
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
             vc.Focus();
@@ -124,6 +124,31 @@ namespace ViBGYOR
             var startC = DictionaryHelpers.RemoveRange(beat, ref can, start, end);
             SubBeatLine.CreateSubBeatSet(linestart, lineend, tupleNumber);
             return startC;
+        }
+
+        internal static void Copy()
+        {
+
+        }
+
+        internal static void Paste(double onset,DockPanel fr)
+        {
+
+        }
+
+        internal static void Cut()
+        {
+            Copy();
+            Delete();
+        }
+
+        internal static void Delete()
+        {
+            foreach (var cult in MidiStrip.CtrlSelected.OfType<CultureElement>())
+            {
+                ((cult.Parent as Canvas).Parent as MidiStrip).selectedElement = null;
+                (cult.Parent as Canvas).Children.Remove(cult as CultureElement);
+            }
         }
     }
 }

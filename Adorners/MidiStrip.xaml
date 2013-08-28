@@ -3,5 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Loaded="Window_Loaded" HorizontalAlignment="Stretch">
     <Canvas  Name="Part_Host" Background="Transparent" x:FieldModifier="public">
+        <Border BorderThickness="0,0,0,1" BorderBrush="Orange" Width="50000" />
     </Canvas>
 </UserControl>
