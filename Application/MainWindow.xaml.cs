@@ -280,7 +280,7 @@ namespace ViBGYOR
                     TimeLine.Children.Insert(startC++, dict.Value.Line);
                     TimeLine.Children.Insert(startC++, dict.Value.TextBlock);
                 }
-            }
+            }           
         }
 
         private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -289,6 +289,41 @@ namespace ViBGYOR
             var windowWidth = (double)GetValue(WidthProperty);
             Left = (SystemParameters.PrimaryScreenWidth / 2) - (windowWidth / 2);
             e.Handled = true;
+        }
+
+        private void WindowKeyHandles(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                switch (e.Key.ToString())
+                {
+                    case "C":
+                        HelperMethods.Copy();
+                        break;
+                    case "V":
+                        HelperMethods.Paste(Mouse.GetPosition(TimeLine).X,CenterDock);
+                        break;
+                    case "X":
+                        HelperMethods.Cut();
+                        break;
+                    case "D":
+                        HelperMethods.Delete();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.Key)
+                {
+                    case Key.Delete:
+                        HelperMethods.Delete();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

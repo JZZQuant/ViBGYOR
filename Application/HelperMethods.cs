@@ -125,5 +125,30 @@ namespace ViBGYOR
             SubBeatLine.CreateSubBeatSet(linestart, lineend, tupleNumber);
             return startC;
         }
+
+        internal static void Copy()
+        {
+
+        }
+
+        internal static void Paste(double onset,DockPanel fr)
+        {
+
+        }
+
+        internal static void Cut()
+        {
+            Copy();
+            Delete();
+        }
+
+        internal static void Delete()
+        {
+            foreach (var cult in MidiStrip.CtrlSelected.OfType<CultureElement>())
+            {
+                ((cult.Parent as Canvas).Parent as MidiStrip).selectedElement = null;
+                (cult.Parent as Canvas).Children.Remove(cult as CultureElement);
+            }
+        }
     }
 }
