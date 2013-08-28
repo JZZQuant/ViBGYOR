@@ -35,12 +35,11 @@ namespace ViBGYOR
         Point mouseDownPos;
         private double selectedbeatLineStart;
         private double selectedbeatLineEnd;
-        private int tupleNumber;
 
         public FramelessWindow()
         {
             InitializeComponent();
-            MouseLeftButtonDown += delegate { DragMove(); };
+            //MouseLeftButtonDown += delegate { DragMove(); };
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -227,7 +226,7 @@ namespace ViBGYOR
                 {
                     Canvas.SetLeft(selectionBox, mousePos.X * BeatLine.ZoomFactor);
                     selectionBox.Width = (mouseDownPos.X - mousePos.X) * BeatLine.ZoomFactor;
-                    selectedbeatLineEnd = mouseDownPos.X ;
+                    selectedbeatLineEnd = mouseDownPos.X;
                     selectedbeatLineStart = mousePos.X;
                 }
 
@@ -256,6 +255,14 @@ namespace ViBGYOR
 
             Point mouseUpPos = e.GetPosition(TimeLine);
             e.Handled = false;
+
+            foreach (var midiStrip in CenterDock.Children.OfType<MidiStrip>())
+            {
+                foreach (var cult in midiStrip.Children.OfType<CultureElement>().Where((x) => Canvas.GetLeft(x) > selectedbeatLineStart && Canvas.GetLeft(x) < selectedbeatLineEnd))
+                {
+                    MidiStrip.SelectedElementsChanged(cult, true);
+                }
+            }
         }
 
         private void TimeLineScrollSync_KeyUp(object sender, KeyEventArgs e)

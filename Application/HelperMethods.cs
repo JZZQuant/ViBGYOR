@@ -77,6 +77,7 @@ namespace ViBGYOR
             vc.Opacity = 0.6;
             canvasstrip.Children.Add(vc);
             vc.Focus();
+            MidiStrip.SelectedElementsChanged(vc, Keyboard.IsKeyDown(Key.LeftCtrl));
             midistrip.CanvasWidth = e.GetPosition(canvasstrip).X + vc.Width;
         }
 

@@ -37,6 +37,7 @@ namespace ViBGYOR.Adorners
         bool _isDragging;
         bool selected = false;
         public UIElement selectedElement = null;
+        public static List<UIElement> CtrlSelected = new List<UIElement>();
 
         Point _startPoint;
         private double _originalLeft;
@@ -71,7 +72,7 @@ namespace ViBGYOR.Adorners
         {
             foreach (MidiStrip strip in (this.Parent as DockPanel).Children.OfType<MidiStrip>())
             {
-                    strip.StopDragging();
+                strip.StopDragging();
             }
             e.Handled = true;
         }
@@ -103,7 +104,7 @@ namespace ViBGYOR.Adorners
                     if (position.X - (_startPoint.X - _originalLeft) > 0)
                     {
                         Canvas.SetLeft(selectedElement, ResizingAdorner.GetLeft(position.X - (_startPoint.X - _originalLeft)));
-                        CanvasWidth =  Canvas.GetLeft(selectedElement);
+                        CanvasWidth = Canvas.GetLeft(selectedElement);
                     }
                 }
             }
@@ -146,7 +147,8 @@ namespace ViBGYOR.Adorners
                 _startPoint = e.GetPosition(Part_Host);
 
                 selectedElement = e.Source as UIElement;
-                selectedElement.Focus();
+
+                SelectedElementsChanged(selectedElement, Keyboard.IsKeyDown(Key.LeftCtrl));
                 _originalLeft = Canvas.GetLeft(selectedElement);
                 _originalTop = Canvas.GetTop(selectedElement);
 
@@ -155,6 +157,49 @@ namespace ViBGYOR.Adorners
                 selected = true;
                 e.Handled = true;
             }
+        }
+
+        public static void SelectedElementsChanged(UIElement selectedElement, bool p)
+        {
+            selectedElement.Focus();
+            if (p)
+            {
+                if (CtrlSelected.Contains(selectedElement))
+                {
+                    LogicalUnFocusElement(selectedElement);
+                    CtrlSelected.Remove(selectedElement);
+                }
+                else
+                {
+                    LogicalFocusElement(selectedElement);
+                    CtrlSelected.Add(selectedElement);
+                }
+            }
+            else
+            {
+                if (CtrlSelected.Count > 0)
+                {
+                    foreach (var el in CtrlSelected)
+                    {
+                        LogicalUnFocusElement(el);
+                    }
+                }
+                CtrlSelected.Clear();
+                LogicalFocusElement(selectedElement);
+                CtrlSelected.Add(selectedElement);
+            }
+        }
+
+        public static void LogicalFocusElement(UIElement selectedElement)
+        {
+            (selectedElement as CultureElement).BorderBrush = Brushes.YellowGreen;
+            (selectedElement as CultureElement).BorderThickness = new Thickness(2);
+        }
+
+        public static void LogicalUnFocusElement(UIElement selectedElement)
+        {
+            (selectedElement as CultureElement).BorderBrush = Brushes.Transparent;
+            (selectedElement as CultureElement).BorderThickness = new Thickness(1);
         }
 
         public double CanvasWidth
