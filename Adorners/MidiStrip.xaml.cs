@@ -134,6 +134,7 @@ namespace ViBGYOR.Adorners
                     selectedElement = null;
                 }
             }
+            e.Handled = false;
         }
 
         // Handler for element selection on the canvas providing resizing adorner

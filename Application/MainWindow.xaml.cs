@@ -39,7 +39,7 @@ namespace ViBGYOR
         public FramelessWindow()
         {
             InitializeComponent();
-            MouseLeftButtonDown += delegate { DragMove(); };
+            MouseLeftButtonDown += new MouseButtonEventHandler(MouseDownOnTimeLine);
         }
 
         private void ExpandMainContextMenu(object sender, RoutedEventArgs e)
@@ -112,6 +112,7 @@ namespace ViBGYOR
         {
             //create an empty midi strip in bottom to fill space for the UI
             MidiStrip m = new MidiStrip();
+            //m.Part_Host.Name = "other";
             m.Height = 16;
             m.VerticalAlignment = VerticalAlignment.Bottom;
             DockPanel.SetDock(m, Dock.Bottom);
@@ -192,6 +193,17 @@ namespace ViBGYOR
 
         private void MouseDownOnTimeLine(object sender, MouseButtonEventArgs e)
         {
+            if ((e.OriginalSource as FrameworkElement).Name != "Part_Host")
+            {
+                try
+                {
+                    DragMove();
+                }
+                catch
+                {
+                }
+                return;
+            };
             // Capture and track the mouse.
             mouseDown = true;
             mouseDownPos = e.GetPosition(TimeLine);
@@ -205,7 +217,7 @@ namespace ViBGYOR
 
             // Make the drag selection box visible.
             selectionBox.Visibility = Visibility.Visible;
-            e.Handled = false;
+            e.Handled = true;
         }
 
         private void MouseMoveOnTimeLine(object sender, MouseEventArgs e)
@@ -232,12 +244,12 @@ namespace ViBGYOR
 
                 if (mouseDownPos.Y < mousePos.Y)
                 {
-                    Canvas.SetTop(selectionBox, mouseDownPos.Y);
+                    Canvas.SetTop(selectionBox, mouseDownPos.Y - 16);
                     selectionBox.Height = mousePos.Y - mouseDownPos.Y;
                 }
                 else
                 {
-                    Canvas.SetTop(selectionBox, mousePos.Y);
+                    Canvas.SetTop(selectionBox, mousePos.Y - 16);
                     selectionBox.Height = mouseDownPos.Y - mousePos.Y;
                 }
             }
@@ -263,7 +275,10 @@ namespace ViBGYOR
             MidiStrip.CtrlSelected.Clear();
             foreach (var midiStrip in CenterDock.Children.OfType<MidiStrip>())
             {
-                foreach (var cult in midiStrip.Children.OfType<CultureElement>().Where((x) => Canvas.GetLeft(x) + x.Width > selectedbeatLineStart && Canvas.GetLeft(x) < selectedbeatLineEnd))
+                var i = CenterDock.Children.IndexOf(midiStrip);
+                foreach (var cult in midiStrip.Children.OfType<CultureElement>().Where((x) =>
+                    Canvas.GetLeft(x) + x.Width > selectedbeatLineStart * BeatLine.ZoomFactor && Canvas.GetLeft(x) < selectedbeatLineEnd * BeatLine.ZoomFactor
+                    && 15 * (i - 2) < Canvas.GetTop(selectionBox) + selectionBox.Height && (15 * (i - 1)) > Canvas.GetTop(selectionBox)))
                 {
                     MidiStrip.SelectedElementsChanged(cult, true);
                 }
@@ -298,6 +313,7 @@ namespace ViBGYOR
 
         private void WindowKeyHandles(object sender, KeyEventArgs e)
         {
+            if (selectionBox.Width > 2 && selectionBox.Height > 2) TimeLineScrollSync_KeyUp(sender, e);
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 switch (e.Key.ToString())
@@ -329,6 +345,7 @@ namespace ViBGYOR
                         break;
                 }
             }
+            e.Handled = false;
         }
     }
 }
