@@ -240,7 +240,7 @@
             </VC:RoundButton.Style>
         </VC:RoundButton>
         <ScrollViewer Name="TimeLineScrollSync" Grid.Column="1" Grid.RowSpan="3" VerticalScrollBarVisibility="Hidden" 
-                      Template="{StaticResource ScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Hidden" KeyUp="TimeLineScrollSync_KeyUp"
+                      Template="{StaticResource ScrollViewerControlTemplate}" HorizontalScrollBarVisibility="Hidden" PreviewKeyUp="TimeLineScrollSync_KeyUp"
                        PreviewMouseLeftButtonDown="MouseDownOnTimeLine" PreviewMouseLeftButtonUp="MouseUpOnTimeLine" PreviewMouseMove="MouseMoveOnTimeLine">
             <Canvas Name="TimeLine">
                 <Canvas.RenderTransform>
