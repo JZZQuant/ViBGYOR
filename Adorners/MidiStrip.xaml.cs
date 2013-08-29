@@ -86,7 +86,7 @@ namespace ViBGYOR.Adorners
                 _isDragging = false;
             }
         }
-
+        int i = 0;
         // Hanler for providing drag operation with selected element
         void Window1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -97,7 +97,7 @@ namespace ViBGYOR.Adorners
                     (Math.Abs(e.GetPosition(Part_Host).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
                     _isDragging = true;
 
-                if (_isDragging && selectedElement != null)
+                if (_isDragging && selectedElement != null && selectedElement.GetType() == typeof(CultureElement))
                 {
                     Point position = Mouse.GetPosition(Part_Host);
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
@@ -105,6 +105,18 @@ namespace ViBGYOR.Adorners
                     {
                         Canvas.SetLeft(selectedElement, ResizingAdorner.GetLeft(position.X - (_startPoint.X - _originalLeft)));
                         CanvasWidth = Canvas.GetLeft(selectedElement);
+                    }
+                    if (Math.Abs(position.Y - _startPoint.Y) > 5)
+                    {
+                        var myDelta = Convert.ToInt16((position.Y - _startPoint.Y) / 15); 
+                        var myParent = (this.Parent as DockPanel);
+                        var myPosition = myParent.Children.IndexOf(this);
+                        var newPOsition = myPosition + myDelta;
+                        if (myParent.Children.Count > newPOsition && newPOsition > 1)
+                        {
+                            (((selectedElement as FrameworkElement).Parent as Canvas).Parent as MidiStrip).Children.Remove(selectedElement);
+                            (myParent.Children[newPOsition] as MidiStrip).Children.Add(selectedElement);
+                        }
                     }
                 }
             }
@@ -203,7 +215,7 @@ namespace ViBGYOR.Adorners
                 if (!flag)
                 {
                     LogicalFocusElement(selectedElement);
-                    CtrlSelected.Add(selectedElement); 
+                    CtrlSelected.Add(selectedElement);
                 }
             }
         }
