@@ -66,11 +66,35 @@ namespace ViBGYOR
             vc.Name = "Element_" + i++.ToString();
             DockPanel.SetDock(vc, Dock.Top);
             vc.InputBindings.Add(new MouseBinding(AddNewCultureElementCommand, new MouseGesture(MouseAction.LeftDoubleClick)));
+            vc.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(HandleAllCultureElementChanges);
             HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);
             CreateCorrespondingMidiStrip(ref vc);
             var position = this.LeftDock.Children.IndexOf(e.OriginalSource as UIElement);
             if (position > 0) this.LeftDock.Children.Insert(position, vc);
             else this.LeftDock.Children.Add(vc);
+        }
+
+        private void HandleAllCultureElementChanges(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                if (Keyboard.IsKeyDown(Key.LeftShift))
+                {
+                    HelperMethods.DeleteMidiStripAndCultureElement(sender as CultureElement);
+                }
+                else if (Keyboard.IsKeyDown(Key.D))
+                {
+                    HelperMethods.MoveStrip(sender as CultureElement,1);
+                }
+                else if (Keyboard.IsKeyDown(Key.U))
+                {
+                    HelperMethods.MoveStrip(sender as CultureElement, -1);
+                }
+                else
+                {
+                    HelperMethods.SetFocusToCultureElements(sender as CultureElement);
+                }
+            }
         }
 
         private void ChangeColorHandler(object sender, ExecutedRoutedEventArgs e)

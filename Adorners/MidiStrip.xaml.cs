@@ -20,7 +20,7 @@ namespace ViBGYOR.Adorners
     public partial class MidiStrip : UserControl
     {
         AdornerLayer aLayer;
-
+        public static int noteCount = 0;
         public static readonly DependencyPropertyKey ChildrenProperty = DependencyProperty.RegisterReadOnly(
           "Children",
           typeof(UIElementCollection),
@@ -86,7 +86,7 @@ namespace ViBGYOR.Adorners
                 _isDragging = false;
             }
         }
-        int i = 0;
+
         // Hanler for providing drag operation with selected element
         void Window1_MouseMove(object sender, MouseEventArgs e)
         {

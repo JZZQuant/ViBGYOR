@@ -75,6 +75,7 @@ namespace ViBGYOR
             vc.Width = ResizingAdorner.LastWidth == 0 ? FramelessWindow.defaultNoteMeasure : ResizingAdorner.LastWidth;
             vc.Curvature = 4;
             vc.Opacity = 0.6;
+            vc.Name = midistrip.Name + "_" + MidiStrip.noteCount;
             canvasstrip.Children.Add(vc);
             vc.Focus();
             MidiStrip.SelectedElementsChanged(vc, Keyboard.IsKeyDown(Key.LeftCtrl));
@@ -131,7 +132,7 @@ namespace ViBGYOR
 
         }
 
-        internal static void Paste(double onset,DockPanel fr)
+        internal static void Paste(double onset, DockPanel fr)
         {
 
         }
@@ -148,6 +149,41 @@ namespace ViBGYOR
             {
                 ((cult.Parent as Canvas).Parent as MidiStrip).selectedElement = null;
                 (cult.Parent as Canvas).Children.Remove(cult as CultureElement);
+            }
+        }
+
+        internal static void DeleteMidiStripAndCultureElement(CultureElement cultureElement)
+        {
+            var thiswindow = Window.GetWindow(cultureElement) as FramelessWindow;
+            var position = thiswindow.LeftDock.Children.IndexOf(cultureElement) + 1;
+            var midistrip = thiswindow.CenterDock.Children.OfType<MidiStrip>().ElementAt(position);
+            midistrip.selectedElement = null;
+            midistrip.Children.Clear();
+            thiswindow.LeftDock.Children.Remove(cultureElement);
+            thiswindow.CenterDock.Children.Remove(midistrip);
+        }
+
+        internal static void SetFocusToCultureElements(CultureElement cultureElement)
+        {
+            var thiswindow = Window.GetWindow(cultureElement) as FramelessWindow;
+            foreach (var c in thiswindow.LeftDock.Children.OfType<CultureElement>())
+            {
+                c.Opacity = 0.6;
+            }
+            cultureElement.Opacity = 0.9;
+        }
+
+        internal static void MoveStrip(CultureElement cultureElement, int p)
+        {
+            var thiswindow = Window.GetWindow(cultureElement) as FramelessWindow;
+            var position = thiswindow.LeftDock.Children.IndexOf(cultureElement) + 1;
+            var midistrip = thiswindow.CenterDock.Children.OfType<MidiStrip>().ElementAt(position);
+            if (position + p > 0 && position + p <= thiswindow.LeftDock.Children.Count)
+            {
+                thiswindow.LeftDock.Children.Remove(cultureElement);
+                thiswindow.CenterDock.Children.Remove(midistrip);
+                thiswindow.LeftDock.Children.Insert(position - 1 + p, cultureElement);
+                thiswindow.CenterDock.Children.Insert(position + 1 + p, midistrip);
             }
         }
     }

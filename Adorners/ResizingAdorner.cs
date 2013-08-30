@@ -69,9 +69,9 @@ namespace ViBGYOR.Adorners
             double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
             double left_old = Canvas.GetLeft(adornedElement);
             if ((left_old - (width_new - width_old)) >= 0)
-            {
+            {                
                 Canvas.SetLeft(adornedElement, GetLeft(left_old - (width_new - width_old)));
-                adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + width_new - Canvas.GetLeft(adornedElement)); ;
+                adornedElement.Width = GetRight(Canvas.GetLeft(adornedElement) + width_new) - Canvas.GetLeft(adornedElement);                   
             }
             LastWidth = adornedElement.Width;
         }
