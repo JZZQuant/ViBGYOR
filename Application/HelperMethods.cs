@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
+using ViBGYORModel;
 
 namespace ViBGYOR
 {
@@ -19,6 +20,8 @@ namespace ViBGYOR
 
         public static void SetInputBindings(RoutedCommand r, Key k, ref CultureElement c)
         {
+            var temp = CultureElementModel.isStackingOn ;
+            CultureElementModel.isStackingOn = false;
             KeyBinding t = new KeyBinding
             {
                 Key = k,
@@ -26,24 +29,33 @@ namespace ViBGYOR
             };
             t.CommandParameter = k;
             c.InputBindings.Add(t);
+            CultureElementModel.isStackingOn = temp;
         }
 
         public static void SetInputBindings(RoutedCommand r, KeyGesture k, ref CultureElement c)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             KeyBinding t = new KeyBinding(r, k);
             t.CommandParameter = k;
             c.InputBindings.Add(t);
+            CultureElementModel.isStackingOn = temp;
         }
 
         public static void SetInputBindings(RoutedCommand r, Key k, ModifierKeys m, ref CultureElement c)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             KeyBinding t = new KeyBinding(r, k, m);
             t.CommandParameter = k;
             c.InputBindings.Add(t);
+            CultureElementModel.isStackingOn = temp;
         }
 
         public static void KeySetForCultureElements(RoutedCommand ChangeColur, ref Controls.CultureElement vc)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             HelperMethods.SetInputBindings(ChangeColur, Key.V, ref vc);
             HelperMethods.SetInputBindings(ChangeColur, Key.I, ref vc);
             HelperMethods.SetInputBindings(ChangeColur, Key.B, ref vc);
@@ -53,10 +65,13 @@ namespace ViBGYOR
             HelperMethods.SetInputBindings(ChangeColur, Key.R, ref vc);
             HelperMethods.SetInputBindings(ChangeColur, Key.W, ref vc);
             HelperMethods.SetInputBindings(ChangeColur, Key.K, ref vc);
+            CultureElementModel.isStackingOn = temp;
         }
 
         public static void AddMidiNotesToStrip(object sender, MouseButtonEventArgs e)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             var midistrip = sender as MidiStrip;
             var canvasstrip = midistrip.Part_Host as Canvas;
             CultureElement vc = new CultureElement();
@@ -77,9 +92,11 @@ namespace ViBGYOR
             vc.Opacity = 0.6;
             vc.Name = midistrip.Name + "_" + MidiStrip.noteCount;
             canvasstrip.Children.Add(vc);
+            CultureElementModel.isStackingOn = true;
             vc.Focus();
             MidiStrip.SelectedElementsChanged(vc, Keyboard.IsKeyDown(Key.LeftCtrl));
             midistrip.CanvasWidth = e.GetPosition(canvasstrip).X + vc.Width;
+            CultureElementModel.isStackingOn = temp;
         }
 
         public static void DeleteNote(object sender, MouseButtonEventArgs e)
@@ -90,6 +107,9 @@ namespace ViBGYOR
 
         public static void Zoom(object sender, MouseWheelEventArgs e)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
+
             //get + or -1  and rasie invert the scale rate
             if (e.Delta != 0)
             {
@@ -111,6 +131,8 @@ namespace ViBGYOR
 
                 thiswindow.st.ScaleX *= localScale;
                 e.Handled = true;
+                CultureElementModel.ModelStack.Add(FramelessWindow.TakeStateSnapShot());
+                CultureElementModel.isStackingOn = temp;
             }
         }
 
@@ -154,6 +176,8 @@ namespace ViBGYOR
 
         internal static void DeleteMidiStripAndCultureElement(CultureElement cultureElement)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             var thiswindow = Window.GetWindow(cultureElement) as FramelessWindow;
             var position = thiswindow.LeftDock.Children.IndexOf(cultureElement) + 1;
             var midistrip = thiswindow.CenterDock.Children.OfType<MidiStrip>().ElementAt(position);
@@ -161,6 +185,8 @@ namespace ViBGYOR
             midistrip.Children.Clear();
             thiswindow.LeftDock.Children.Remove(cultureElement);
             thiswindow.CenterDock.Children.Remove(midistrip);
+            CultureElementModel.isStackingOn = temp;
+            CultureElementModel.ModelStack.Add(FramelessWindow.TakeStateSnapShot());
         }
 
         internal static void SetFocusToCultureElements(CultureElement cultureElement)
@@ -175,6 +201,8 @@ namespace ViBGYOR
 
         internal static void MoveStrip(CultureElement cultureElement, int p)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             var thiswindow = Window.GetWindow(cultureElement) as FramelessWindow;
             var position = thiswindow.LeftDock.Children.IndexOf(cultureElement) + 1;
             var midistrip = thiswindow.CenterDock.Children.OfType<MidiStrip>().ElementAt(position);
@@ -185,6 +213,7 @@ namespace ViBGYOR
                 thiswindow.LeftDock.Children.Insert(position - 1 + p, cultureElement);
                 thiswindow.CenterDock.Children.Insert(position + 1 + p, midistrip);
             }
+            CultureElementModel.isStackingOn = temp;
         }
     }
 }

@@ -80,6 +80,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ViBGYORModel\ViBGYORModel.csproj">
+      <Project>{b2b5c280-7c3e-43ae-8d7c-4b1e8ff78fbb}</Project>
+      <Name>ViBGYORModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using ViBGYOR.Adorners;
 using ViBGYOR.Controls;
 using System.Timers;
+using ViBGYORModel;
 
 namespace ViBGYOR
 {
@@ -57,6 +58,7 @@ namespace ViBGYOR
 
         private void AddNewCultureElement(object sender, ExecutedRoutedEventArgs e)
         {
+            CultureElementModel.isStackingOn = false;
             var vc = new ViBGYOR.Controls.CultureElement();
             var color = this.Resources["G"] as Brush;
             vc.Background = color;
@@ -70,6 +72,7 @@ namespace ViBGYOR
             HelperMethods.KeySetForCultureElements(ChangeColur, ref vc);
             CreateCorrespondingMidiStrip(ref vc);
             var position = this.LeftDock.Children.IndexOf(e.OriginalSource as UIElement);
+            CultureElementModel.isStackingOn = true;
             if (position > 0) this.LeftDock.Children.Insert(position, vc);
             else this.LeftDock.Children.Add(vc);
         }
@@ -107,6 +110,8 @@ namespace ViBGYOR
 
         private void CreateCorrespondingMidiStrip(ref CultureElement vc)
         {
+            var temp = CultureElementModel.isStackingOn;
+            CultureElementModel.isStackingOn = false;
             var midiStrip = new MidiStrip();
             midiStrip.Part_Host.Height = vc.Height;
             midiStrip.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -114,7 +119,9 @@ namespace ViBGYOR
             midiStrip.MouseDoubleClick += HelperMethods.AddMidiNotesToStrip;
             midiStrip.BorderBrush = Brushes.Black;
             DockPanel.SetDock(midiStrip, Dock.Top);
+            CultureElementModel.isStackingOn = true;
             this.CenterDock.Children.Add(midiStrip);
+            CultureElementModel.isStackingOn = temp;
         }
 
         private void Zoom(object sender, MouseWheelEventArgs e)
@@ -282,6 +289,7 @@ namespace ViBGYOR
 
         private void MouseUpOnTimeLine(object sender, MouseButtonEventArgs e)
         {
+            CultureElementModel.isStackingOn = false;
             // Release the mouse capture and stop tracking it.
             mouseDown = false;
             TimeLine.ReleaseMouseCapture();
@@ -307,6 +315,8 @@ namespace ViBGYOR
                     MidiStrip.SelectedElementsChanged(cult, true);
                 }
             }
+            //CultureElementModel.ModelStack.Add(TakeStateSnapShot());
+            CultureElementModel.isStackingOn = true;
         }
 
         private void TimeLineScrollSync_KeyUp(object sender, KeyEventArgs e)
@@ -327,7 +337,7 @@ namespace ViBGYOR
             }
         }
 
-        private void Grid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        private void HorizontalMaximize(object sender, MouseButtonEventArgs e)
         {
             this.Width = SystemParameters.PrimaryScreenWidth;
             var windowWidth = (double)GetValue(WidthProperty);
@@ -337,6 +347,7 @@ namespace ViBGYOR
 
         private void WindowKeyHandles(object sender, KeyEventArgs e)
         {
+            CultureElementModel.isStackingOn = false;
             if (selectionBox.Width > 2 && selectionBox.Height > 2) TimeLineScrollSync_KeyUp(sender, e);
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
@@ -369,7 +380,14 @@ namespace ViBGYOR
                         break;
                 }
             }
+            CultureElementModel.ModelStack.Add(TakeStateSnapShot());
+            CultureElementModel.isStackingOn = true;
             e.Handled = false;
+        }
+
+        public static List<CultureElementModel> TakeStateSnapShot()
+        {
+            return new List<CultureElementModel>(); ;
         }
     }
 }

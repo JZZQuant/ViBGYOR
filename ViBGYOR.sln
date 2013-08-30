@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeLine", "TimeLine\TimeLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFHelpers", "WPFHelpers\WPFHelpers.csproj", "{0D8BDB83-392E-4D72-94AB-231E015C7066}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViBGYORModel", "ViBGYORModel\ViBGYORModel.csproj", "{B2B5C280-7C3E-43AE-8D7C-4B1E8FF78FBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0D8BDB83-392E-4D72-94AB-231E015C7066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D8BDB83-392E-4D72-94AB-231E015C7066}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D8BDB83-392E-4D72-94AB-231E015C7066}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2B5C280-7C3E-43AE-8D7C-4B1E8FF78FBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2B5C280-7C3E-43AE-8D7C-4B1E8FF78FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2B5C280-7C3E-43AE-8D7C-4B1E8FF78FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2B5C280-7C3E-43AE-8D7C-4B1E8FF78FBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

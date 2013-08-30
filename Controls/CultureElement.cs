@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViBGYORModel;
 
 namespace ViBGYOR.Controls
 {
@@ -46,6 +47,15 @@ namespace ViBGYOR.Controls
     /// </summary>
     public class CultureElement : Button
     {
+        public CultureElementModel Model;
+        public List<DependencyProperty> WatchList = new List<DependencyProperty>() {
+            CultureElement.WidthProperty,
+            CultureElement.BackgroundProperty,
+            CultureElement.PitchProperty,
+            CultureElement.DisplayTxtProperty,
+            CultureElement.FontProperty,
+            Canvas.LeftProperty};
+
         static CultureElement()
         {
             CurvatureProperty = DependencyProperty.Register("Curvature", typeof(int), typeof(CultureElement), new UIPropertyMetadata(4));
@@ -63,6 +73,19 @@ namespace ViBGYOR.Controls
             set { SetValue(DisplayTxtProperty, value); }
         }
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (WatchList.Contains(e.Property))
+            {
+
+            }
+            base.OnPropertyChanged(e);
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+        }
 
         public static DependencyProperty CurvatureProperty;
 
