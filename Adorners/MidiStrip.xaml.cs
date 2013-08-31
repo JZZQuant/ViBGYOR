@@ -38,6 +38,7 @@ namespace ViBGYOR.Adorners
         bool selected = false;
         public UIElement selectedElement = null;
         public static List<UIElement> CtrlSelected = new List<UIElement>();
+        public static List<Tuple<CultureElement, MidiStrip>> CopyBuffer = new List<Tuple<CultureElement, MidiStrip>>();
 
         Point _startPoint;
         private double _originalLeft;

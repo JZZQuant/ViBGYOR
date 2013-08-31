@@ -129,12 +129,66 @@ namespace ViBGYOR
 
         internal static void Copy()
         {
-
+            MidiStrip.CopyBuffer.Clear();
+            foreach (var cult in MidiStrip.CtrlSelected.OfType<CultureElement>())
+            {
+                CultureElement vc = new CultureElement();
+                HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
+                vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
+                //set attributes
+                vc.Background = cult.Background;
+                Canvas.SetLeft(vc, Canvas.GetLeft(cult));
+                vc.Height = cult.Height;
+                vc.BorderBrush = cult.BorderBrush;
+                vc.Width = cult.Width;
+                vc.Curvature = cult.Curvature;
+                vc.Opacity = cult.Opacity;
+                vc.Name = cult.Name + "_Copy";
+                MidiStrip.CopyBuffer.Add(new Tuple<CultureElement, MidiStrip>(vc, (cult.Parent as Canvas).Parent as MidiStrip));
+            }
         }
 
         internal static void Paste(double onset, DockPanel fr)
         {
+            if (MidiStrip.CopyBuffer.Count > 0)
+            {
+                var initial = (MidiStrip.CopyBuffer[0].Item1 as CultureElement);
+                var offset = onset - Canvas.GetLeft(initial);
+                foreach (var tuple in MidiStrip.CopyBuffer)
+                {
+                    if (fr.Children.Contains(tuple.Item2 as MidiStrip))
+                    {
+                        var cult = tuple.Item1 as CultureElement;
+                        var left = Math.Max(offset + Canvas.GetLeft(cult), 0) * BeatLine.ZoomFactor;
+                        var leftNormalized = ResizingAdorner.GetLeft(left);
+                        Canvas.SetLeft(cult, leftNormalized);
+                        (tuple.Item2 as MidiStrip).Part_Host.Children.Add(cult);
+                        cult.Focus();
+                        (tuple.Item2 as MidiStrip).CanvasWidth = Canvas.GetLeft(cult) + cult.Width;
+                    }
+                }
+                List<Tuple<CultureElement, MidiStrip>> temp = new List<Tuple<CultureElement, MidiStrip>>();
+                foreach (var cult1 in MidiStrip.CopyBuffer)
+                {
+                    var cult = cult1.Item1 as CultureElement;
+                    CultureElement vc = new CultureElement();
+                    HelperMethods.KeySetForCultureElements(FramelessWindow.ChangeColur, ref vc);
+                    vc.PreviewMouseDoubleClick += new MouseButtonEventHandler(DeleteNote);
+                    //set attributes
+                    vc.Background = cult.Background;
+                    Canvas.SetLeft(vc, Canvas.GetLeft(cult));
+                    vc.Height = cult.Height;
+                    vc.BorderBrush = cult.BorderBrush;
+                    vc.Width = cult.Width;
+                    vc.Curvature = cult.Curvature;
+                    vc.Opacity = cult.Opacity;
+                    vc.Name = cult.Name + "_Copy";
+                    temp.Add(new Tuple<CultureElement, MidiStrip>(vc, (cult.Parent as Canvas).Parent as MidiStrip));
+                }
 
+                MidiStrip.CopyBuffer.Clear();
+                MidiStrip.CopyBuffer.AddRange(temp);
+            }
         }
 
         internal static void Cut()
